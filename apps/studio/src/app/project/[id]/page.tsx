@@ -293,6 +293,30 @@ export default function ProjectPage({ params }: { params: Promise<{ id: string }
     return null;
   };
 
+  const syncFromDocs = async () => {
+    if (!p || tab === 'characters') return;
+    const fileMap: Record<string, string> = {
+      quiz: 'cards/sapere.json',
+      events: 'cards/imprevisti.json',
+      archive: 'cards/archivio.json',
+    };
+    const filePath = fileMap[tab];
+    if (!filePath) return;
+    try {
+      const res = await fetch(docsAssetUrl(slug, filePath));
+      if (!res.ok) throw new Error(`File ${filePath} non trovato in docs/`);
+      const text = await res.text();
+      const err = doImport(text);
+      if (!err) {
+        setStatus({ msg: `✔ Sincronizzato con successo da ${filePath}` });
+      } else {
+        setStatus({ msg: `✖ Errore sincronizzazione: ${err}`, err: true });
+      }
+    } catch (e: any) {
+      setStatus({ msg: `✖ Impossibile sincronizzare: ${e.message}`, err: true });
+    }
+  };
+
   const deckMeta = {
     quiz: { key: 'carte', file: 'mazzo_sapere.json', prompt: AI_PROMPTS.quiz, data: () => ({ carte: p.quiz }) },
     events: { key: 'imprevisti', file: 'mazzo_imprevisti.json', prompt: AI_PROMPTS.events, data: () => ({ imprevisti: p.events }) },
@@ -399,6 +423,9 @@ export default function ProjectPage({ params }: { params: Promise<{ id: string }
               <h2>2 · Importa e conserva</h2>
               <button className="btn btn-primary btn-block" onClick={() => setImportOpen(true)}>
                 📥 Importa JSON (incolla)
+              </button>
+              <button className="btn btn-secondary btn-block" onClick={syncFromDocs}>
+                🔄 Sincronizza da file di progetto (docs/)
               </button>
               <button className="btn btn-ghost btn-block" onClick={() => setJsonOpen(true)}>
                 📄 Mostra / copia JSON del mazzo

@@ -47,8 +47,8 @@ export function GET(req: NextRequest) {
     return NextResponse.json({ files: files.sort() });
   }
 
-  // solo asset e template, niente path traversal
-  if (!/^(assets|cards\/templates)\/[a-zA-Z0-9._/-]+$/.test(rel) || rel.includes('..')) {
+  // solo asset, carte e template, niente path traversal
+  if (!/^(assets|cards(\/templates)?)\/[a-zA-Z0-9._/-]+$/.test(rel) || rel.includes('..')) {
     return NextResponse.json({ error: 'percorso non valido' }, { status: 400 });
   }
   const file = path.join(gameRoot, rel);

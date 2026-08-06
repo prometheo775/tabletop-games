@@ -1,15 +1,111 @@
 {
-  "imprevisti": [
-    {
-      "titolo": "Censura!",
-      "testo": "La libertà di stampa viene fortemente limitata dalle autorità. Le comunicazioni del vostro gruppo sono bloccate.",
-      "effetto": "Perdi un turno",
+"imprevisti": [
+{
+"titolo": "REGNO D'ITALIA!",
+"testo": "Il 17 marzo 1861 viene proclamato il Regno d'Italia. Dopo il lungo percorso del Risorgimento, gran parte della penisola è finalmente riunita sotto un unico Stato.",
+"effetto": "Avanza di 1 casella",
+"tipo": "bonus"
+},
+{
+"titolo": "STRADE FERRATE!",
+"testo": "Lo sviluppo della rete ferroviaria collega città e regioni, favorendo gli scambi commerciali, la circolazione delle persone e la crescita economica del nuovo Regno.",
+"effetto": "Vai alla prossima Casella Sapere",
+"tipo": "bonus"
+},
+{
+"titolo": "GRANDE EMIGRAZIONE!",
+"testo": "Tra la fine dell'Ottocento e l'inizio del Novecento milioni di italiani emigrano all'estero in cerca di lavoro e di migliori condizioni di vita.",
+"effetto": "Torna indietro di 1 casella e attiva la casella di arrivo",
+"tipo": "malus"
+},
+{
+"titolo": "IL BRIGANTAGGIO!",
+"testo": "Dopo l'Unità d'Italia il nuovo Stato incontra numerose difficoltà nel consolidare il proprio controllo sul territorio, soprattutto nelle regioni meridionali.",
+"effetto": "Pesca nuova Carta Imprevisto",
+"tipo": "malus"
+},
+{
+"titolo": "LA GRANDE GUERRA!",
+"testo": "Nel 1915 l'Italia entra nella Prima guerra mondiale, un conflitto destinato a modificare profondamente la storia del Paese.",
+"effetto": "Avanza di 2 caselle ma non attivare la casella di arrivo",
+"tipo": "bonus"
+},
+{
+"titolo": "PROPAGANDA DI REGIME!",
+"testo": "Durante il fascismo la stampa, la radio e la scuola vengono utilizzate come strumenti di propaganda per diffondere l'ideologia del regime.",
+"effetto": "Ritorna alla precedente Casella Sapere e pesca una nuova domanda",
+"tipo": "malus"
+},
+{
+"titolo": "L'ARMISTIZIO!",
+"testo": "L'annuncio dell'armistizio dell'8 settembre 1943 provoca disorientamento nell'esercito italiano e apre una nuova fase della guerra.",
+"effetto": "Perdi il prossimo turno",
+"tipo": "malus"
+},
+{
+"titolo": "NASCE LA RESISTENZA!",
+"testo": "Dopo l'occupazione tedesca e la nascita della Repubblica Sociale Italiana, molti cittadini scelgono di partecipare alla Resistenza per liberare il Paese.",
+"effetto": "Raggiungi la prossima casella Archivio Storico",
+"tipo": "bonus"
+},
+{
+"titolo": "REFERENDUM ISTITUZIONALE!",
+"testo": "Il 2 giugno 1946 gli italiani sono chiamati a scegliere, attraverso un referendum, tra Monarchia e Repubblica.",
+"effetto": "Il gruppo sceglie la carta da pescare tra Sapere e Imprevisto",
+"tipo": "bonus"
+},
+{
+"titolo": "VOTO ALLE DONNE!",
+"testo": "Per la prima volta nella storia d'Italia anche le donne partecipano alle elezioni politiche nazionali, contribuendo alla nascita della nuova democrazia.",
+"effetto": "Timbro extra e avanza di 1 casella senza attivare la casella di arrivo",
+"tipo": "bonus"
+},
+{
+"titolo": "ASSEMBLEA COSTITUENTE!",
+"testo": "I rappresentanti eletti dall'Assemblea Costituente lavorano alla stesura della Costituzione della Repubblica Italiana.",
+"effetto": "Vai alla prossima Casella Sapere: doppio timbro se la risposta è giusta",
+"tipo": "bonus"
+},
+{
+"titolo": "LA COSTITUZIONE!",
+"testo": "Il 1° gennaio 1948 entra in vigore la Costituzione della Repubblica Italiana, che sancisce i principi fondamentali della nuova democrazia.",
+"effetto": "Avanza di 2 caselle e attiva la casella di arrivo",
+"tipo": "bonus"
+},
+ {
+      "titolo": "TASSA SUL MACINATO!",
+      "testo": "Nel 1868 il governo introduce un'imposta impopolare sul macinato di grano, scatenando proteste contadine in tutta la penisola.",
+      "effetto": "Rimani fermo per 1 turno",
       "tipo": "malus"
     },
     {
-      "titolo": "Moti Popolari",
-      "testo": "La popolazione scende in piazza per chiedere riforme giuste e rappresentanza democratica.",
-      "effetto": "Avanza di 2 caselle",
+      "titolo": "BRECCIA DI PORTA PIA!",
+      "testo": "Il 20 settembre 1870 i bersaglieri entrano a Roma: l'Italia completa un fondamentale tassello dell'Unità e trasferisce qui la capitale.",
+      "effetto": "Avanza di 2 caselle e attiva la casella di arrivo",
+      "tipo": "bonus"
+    },
+    {
+      "titolo": "TELEGRAFO SENZA FILI!",
+      "testo": "Nel 1895 Guglielmo Marconi inventa la trasmissione radiofonica, rivoluzionando le comunicazioni del Paese e del mondo intero.",
+      "effetto": "Avanza fino alla prossima casella Archivio Storico e attivala",
+      "tipo": "bonus"
+    },
+    {
+      "titolo": "SCANDALO DELLA BANCA ROMANA!",
+      "testo": "Nel 1893 una grave crisi finanziaria e politica travolge il sistema creditizio, bloccando gli investimenti pubblici nel Regno.",
+      "effetto": "Torna indietro di 2 caselle e non attivare la casella di arrivo",
+      "tipo": "malus"
+    },
+    {
+      "titolo": "DISFATTA DI ADUA!",
+      "testo": "Nel 1896 le truppe italiane subiscono una pesante sconfitta in Etiopia, frenando bruscamente le ambizioni coloniali del Paese.",
+      "effetto": "Torna indietro di 1 casella e attiva la casella di arrivo",
+      "tipo": "malus"
+    },
+    {
+      "titolo": "TRIANGOLO INDUSTRIALE!",
+      "testo": "A inizio '900 Milano, Torino e Genova guidano lo sviluppo economico e manifatturiero della giovane nazione.",
+      "effetto": "Avanza di 1 casella e attiva la casella di arrivo",
       "tipo": "bonus"
     }
   ]

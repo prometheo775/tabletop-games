@@ -1,25 +1,666 @@
 {
-  "carte": [
+"carte": [
+{
+"era": 1,
+"domanda": "Chi fu il primo capo di governo dell'Italia unita?",
+"opzioni": [
+"Camillo Benso di Cavour",
+"Giuseppe Mazzini",
+"Agostino Depretis"
+],
+"risposta": "A",
+"gettone": "LIBERTÀ"
+},
+{
+"era": 1,
+"domanda": "In quale anno è stata proclamata l'Unità d'Italia?",
+"opzioni": [
+"1848",
+"1911",
+"1861"
+],
+"risposta": "C",
+"gettone": "LIBERTÀ"
+},
+{
+"era": 1,
+"domanda": "Quale fu la prima capitale del Regno d'Italia?",
+"opzioni": [
+"Roma",
+"Firenze",
+"Torino"
+],
+"risposta": "C",
+"gettone": "LIBERTÀ"
+},
+{
+"era": 1,
+"domanda": "Cos'è la catena di montaggio introdotta con il lavoro di Taylor?",
+"opzioni": [
+"Un accordo politico",
+"Leggi per orari di lavoro",
+"Un nastro scorrevole per operazioni singole"
+],
+"risposta": "C",
+"gettone": "LAVORO"
+},
+{
+"era": 1,
+"domanda": "Quali tre città formavano il Triangolo Industriale nell'Italia del Nord?",
+"opzioni": [
+"Torino, Milano, Genova",
+"Roma, Napoli, Bari",
+"Venezia, Firenze, Bologna"
+],
+"risposta": "A",
+"gettone": "LAVORO"
+},
+{
+"era": 1,
+"domanda": "Che cosa stabilisce il Protezionismo economico?",
+"opzioni": [
+"Tasse sui prodotti esteri",
+"Distribuzione di cibo ai poveri",
+"Divieto di emigrare"
+],
+"risposta": "A",
+"gettone": "LAVORO"
+},
+{
+"era": 1,
+"domanda": "Cosa significa 'suffragio universale maschile' introdotto nel 1913?",
+"opzioni": [
+"Votano solo i maschi ricchi",
+"Votano uomini e donne",
+"Votano tutti i maschi adulti"
+],
+"risposta": "C",
+"gettone": "UGUAGLIANZA"
+},
+{
+"era": 1,
+"domanda": "Durante la Belle Époque nascono i consumi di massa, la pubblicità e il cinema.",
+"opzioni": [
+"Vero",
+"Falso"
+],
+"risposta": "A",
+"gettone": "DIGNITÀ"
+},
+{
+"era": 1,
+"domanda": "L'Imperialismo si basava anche sull'idea razzista di civilizzare altri popoli.",
+"opzioni": [
+"Vero",
+"Falso"
+],
+"risposta": "A",
+"gettone": "DIGNITÀ"
+},
+{
+"era": 1,
+"domanda": "Nel 1874 papa Pio IX invitò tutti i cattolici a partecipare alla politica italiana.",
+"opzioni": [
+"Vero",
+"Falso"
+],
+"risposta": "B",
+"gettone": "LIBERTÀ"
+},
+{
+"era": 1,
+"domanda": "Nel 1903 sono diventato Presidente del Consiglio e ho aiutato il Meridione. Chi sono?",
+"opzioni": [],
+"risposta": "Giovanni Giolitti",
+"gettone": "LIBERTÀ"
+},
+{
+"era": 1,
+"domanda": "Lavoriamo nelle fabbriche e ci organizziamo in sindacati per i diritti sul lavoro. Chi siamo?",
+"opzioni": [],
+"risposta": "Il Proletariato Industriale",
+"gettone": "LAVORO"
+},
+{
+"era": 1,
+"domanda": "Lottiamo per l'istruzione delle donne, l'uguaglianza e il diritto di voto. Chi siamo?",
+"opzioni": [],
+"risposta": "I movimenti femminili",
+"gettone": "UGUAGLIANZA"
+},
+{
+"era": 2,
+"domanda": "Quale evento segna l'inizio della Prima guerra mondiale?",
+"opzioni": [
+"L'invasione della Polonia",
+"L'assassinio dell'arciduca a Sarajevo",
+"La Marcia su Roma"
+],
+"risposta": "B",
+"gettone": "PACE"
+},
+{
+"era": 2,
+"domanda": "Con quale accordo l'Italia entra nella Prima guerra mondiale?",
+"opzioni": [
+"Patto Gentiloni",
+"Patto di Londra",
+"Patto d'Acciaio"
+],
+"risposta": "B",
+"gettone": "PACE"
+},
+{
+"era": 2,
+"domanda": "Come viene chiamata la lunga fase della Prima guerra mondiale nelle trincee?",
+"opzioni": [
+"Guerra di movimento",
+"Guerra di posizione",
+"Guerra lampo"
+],
+"risposta": "B",
+"gettone": "PACE"
+},
+{
+"era": 2,
+"domanda": "Quale evento permette a Mussolini di ottenere il governo nel 1922?",
+"opzioni": [
+"La Marcia su Roma",
+"I Patti Lateranensi",
+"Il Biennio Rosso"
+],
+"risposta": "A",
+"gettone": "LIBERTÀ"
+},
+{
+"era": 2,
+"domanda": "Con chi vengono firmati i Patti Lateranensi nel 1929?",
+"opzioni": [
+"Con la Germania",
+"Con la Chiesa cattolica",
+"Con la Francia"
+],
+"risposta": "B",
+"gettone": "PACE"
+},
+{
+"era": 2,
+"domanda": "Quale evento segna l'inizio della Seconda guerra mondiale?",
+"opzioni": [
+"L'attacco a Pearl Harbor",
+"L'invasione della Polonia",
+"L'entrata in guerra dell'Italia"
+],
+"risposta": "B",
+"gettone": "PACE"
+},
+{
+"era": 2,
+"domanda": "Che cos'era la Resistenza?",
+"opzioni": [
+"Un esercito tedesco",
+"Un partito politico",
+"Un movimento di liberazione contro nazisti e fascisti"
+],
+"risposta": "C",
+"gettone": "LIBERTÀ"
+},
+{
+"era": 2,
+"domanda": "Le Leggi fascistissime aumentarono le libertà dei cittadini italiani.",
+"opzioni": [
+"Vero",
+"Falso"
+],
+"risposta": "B",
+"gettone": "LIBERTÀ"
+},
+{
+"era": 2,
+"domanda": "Con l'armistizio dell'8 settembre 1943 l'Italia si ritrovò divisa in due.",
+"opzioni": [
+"Vero",
+"Falso"
+],
+"risposta": "A",
+"gettone": "PACE"
+},
+{
+"era": 2,
+"domanda": "Le Leggi di Norimberga tolsero agli ebrei molti diritti civili e politici.",
+"opzioni": [
+"Vero",
+"Falso"
+],
+"risposta": "A",
+"gettone": "DIGNITÀ"
+},
+{
+"era": 2,
+"domanda": "Nel 1933 sono diventato cancelliere della Germania e ho instaurato una dittatura. Chi sono?",
+"opzioni": [],
+"risposta": "Adolf Hitler",
+"gettone": "DIGNITÀ"
+},
+{
+"era": 2,
+"domanda": "Durante la Seconda guerra mondiale abbiamo combattuto per liberare l'Italia. Chi siamo?",
+"opzioni": [],
+"risposta": "I Partigiani",
+"gettone": "LIBERTÀ"
+},
+{
+"era": 2,
+"domanda": "Eravamo fosse scavate nel terreno, fredde e pericolose nella Prima guerra mondiale. Cosa siamo?",
+"opzioni": [],
+"risposta": "Le trincee",
+"gettone": "PACE"
+},
+{
+"era": 3,
+"domanda": "Cosa scelgono gli italiani con il referendum del 2 giugno 1946?",
+"opzioni": [
+"Se entrare nella NATO",
+"Tra Monarchia e Repubblica",
+"Il Presidente della Repubblica"
+],
+"risposta": "B",
+"gettone": "LIBERTÀ"
+},
+{
+"era": 3,
+"domanda": "Quale Assemblea viene eletta il 2 giugno 1946?",
+"opzioni": [
+"Assemblea costituente",
+"Assemblea legislativa",
+"Assemblea Popolare"
+],
+"risposta": "A",
+"gettone": "ISTRUZIONE"
+},
+{
+"era": 3,
+"domanda": "Quando entra in vigore la Costituzione italiana?",
+"opzioni": [
+"25 aprile 1945",
+"2 giugno 1946",
+"1° gennaio 1948"
+],
+"risposta": "C",
+"gettone": "UGUAGLIANZA"
+},
+{
+"era": 3,
+"domanda": "Chi fu il primo Presidente della Repubblica Italiana?",
+"opzioni": [
+"Alcide De Gasperi",
+"Enrico De Nicola",
+"Luigi Einaudi"
+],
+"risposta": "B",
+"gettone": "DIGNITÀ"
+},
+{
+"era": 3,
+"domanda": "Quale organizzazione militare entra a far parte dell'Italia nel 1949?",
+"opzioni": [
+"NATO",
+"ONU",
+"Patto di Varsavia"
+],
+"risposta": "A",
+"gettone": "PACE"
+},
+{
+"era": 3,
+"domanda": "Che cos'era la Cassa del Mezzogiorno?",
+"opzioni": [
+"Un'organizzazione militare",
+"Un ente per lo sviluppo del Sud Italia",
+"Una banca privata"
+],
+"risposta": "B",
+"gettone": "LAVORO"
+},
+{
+"era": 3,
+"domanda": "Come viene chiamato il periodo di grande crescita economica italiana negli anni '50 e '60?",
+"opzioni": [
+"Belle Époque",
+"Biennio rosso",
+"Boom economico"
+],
+"risposta": "C",
+"gettone": "LAVORO"
+},
+{
+"era": 3,
+"domanda": "La Costituzione italiana si fonda sui principi della democrazia e dell'antifascismo.",
+"opzioni": [
+"Vero",
+"Falso"
+],
+"risposta": "A",
+"gettone": "UGUAGLIANZA"
+},
+{
+"era": 3,
+"domanda": "Nella Guerra Fredda USA e URSS si affrontarono in una guerra diretta sul loro territorio.",
+"opzioni": [
+"Vero",
+"Falso"
+],
+"risposta": "B",
+"gettone": "PACE"
+},
+{
+"era": 3,
+"domanda": "Martin Luther King lottò con metodi non violenti per i diritti degli afroamericani.",
+"opzioni": [
+"Vero",
+"Falso"
+],
+"risposta": "A",
+"gettone": "UGUAGLIANZA"
+},
+{
+"era": 3,
+"domanda": "Nasco nel 1948, difendo i diritti dei cittadini e stabilisco i loro doveri. Che cosa sono?",
+"opzioni": [],
+"risposta": "La Costituzione italiana",
+"gettone": "DIGNITÀ"
+},
+{
+"era": 3,
+"domanda": "Siamo due superpotenze della Guerra Fredda, una capitalista e una comunista. Chi siamo?",
+"opzioni": [],
+"risposta": "Stati Uniti e Unione Sovietica (URSS)",
+"gettone": "PACE"
+},
+{
+"era": 3,
+"domanda": "Negli anni '50-'60 ho lasciato il Sud per lavorare in una città industriale del Nord. Chi sono?",
+"opzioni": [],
+"risposta": "Un emigrante interno",
+"gettone": "LAVORO"
+},
+{ "era": 3, "domanda": "In quale data gli italiani e le italiane votarono per scegliere tra Monarchia e Repubblica?", "opzioni": ["25 Aprile 1945", "2 Giugno 1946", "1 Gennaio 1948", "18 Aprile 1948"], "risposta": "B", "gettone": "LIBERTÀ" }, { "era": 3, "domanda": "In quale data è entrata ufficialmente in vigore la Costituzione della Repubblica Italiana?", "opzioni": ["2 Giugno 1946", "22 Dicembre 1947", "1° Gennaio 1948", "25 Luglio 1943"], "risposta": "C", "gettone": "DIGNITÀ" }, { "era": 3, "domanda": "Chi era il Presidente dell'Assemblea Costituente al momento dell'approvazione della Costituzione?", "opzioni": ["Alcide De Gasperi", "Umberto Terracini", "Enrico De Nicola", "Piero Calamandrei"], "risposta": "B", "gettone": "LIBERTÀ" }, { "era": 3, "domanda": "Chi fu il primo Capo provvisorio dello Stato a firmare la Costituzione italiana?", "opzioni": ["Luigi Einaudi", "Sandro Pertini", "Enrico De Nicola", "Giuseppe Saragat"], "risposta": "C", "gettone": "DIGNITÀ" }, { "era": 3, "domanda": "Come recita l'inizio dell'Articolo 1 della Costituzione italiana?", "opzioni": ["Repubblica federale fondata sulla libertà", "Repubblica democratica, fondata sul lavoro", "Stato sovrano e indivisibile", "La sovranità appartiene al Governo"], "risposta": "B", "gettone": "LAVORO" }, { "era": 3, "domanda": "Quale articolo della Costituzione stabilisce che l'Italia ripudia la guerra?", "opzioni": ["Articolo 3", "Articolo 11", "Articolo 21", "Articolo 139"], "risposta": "B", "gettone": "PACE" }, { "era": 3, "domanda": "Quale articolo della Costituzione tutela la libertà di pensiero, di parola e di stampa?", "opzioni": ["Articolo 12", "Articolo 21", "Articolo 33", "Articolo 41"], "risposta": "B", "gettone": "ISTRUZIONE" }, { "era": 3, "domanda": "Quale principio fondamentale sancisce l'Articolo 3 della Costituzione?", "opzioni": ["Il diritto al lavoro", "L'uguaglianza dei cittadini", "La libertà di religione", "Il ripudio della guerra"], "risposta": "B", "gettone": "UGUAGLIANZA" }, { "era": 3, "domanda": "Quale articolo della Costituzione stabilisce che la forma repubblicana non può essere modificata?", "opzioni": ["Articolo 1", "Articolo 12", "Articolo 54", "Articolo 139"], "risposta": "D", "gettone": "LIBERTÀ" }, { "era": 3, "domanda": "Quale organo verifica che le leggi approvate siano conformi alla Costituzione?", "opzioni": ["Consiglio di Stato", "Corte Costituzionale", "Corte di Cassazione", "Magistratura"], "risposta": "B", "gettone": "DIGNITÀ" }, 
+{"era": 1,
+      "domanda": "Attraverso quale storico evento del 20 settembre 1870 Roma fu annessa al Regno d'Italia?",
+      "opzioni": [
+        "Spedizione dei Mille",
+        "Breccia di Porta Pia",
+        "Cinque Giornate di Milano"
+      ],
+      "risposta": "B",
+      "gettone": "DIGNITÀ"
+    },
     {
       "era": 1,
-      "domanda": "In quale anno è stata proclamata ufficialmente l'Unità d'Italia con Vittorio Emanuele II Re d'Italia?",
-      "opzioni": ["1848", "1861", "1870"],
+      "domanda": "Come si chiamava la prima carta costituzionale in vigore nel Regno d'Italia fino al 1947?",
+      "opzioni": [
+        "Statuto Albertino",
+        "Costituzione Romana",
+        "Patto di Milano"
+      ],
+      "risposta": "A",
+      "gettone": "LIBERTÀ"
+    },
+    {
+      "era": 1,
+      "domanda": "Quale legge del 1877 rese l'istruzione elementare obbligatoria e gratuita per i primi due anni?",
+      "opzioni": [
+        "Legge Casati",
+        "Legge Coppino",
+        "Legge Gentile"
+      ],
       "risposta": "B",
+      "gettone": "ISTRUZIONE"
+    },
+    {
+      "era": 1,
+      "domanda": "Quale invenzione di Guglielmo Marconi del 1895 rivoluzionò le comunicazioni a distanza?",
+      "opzioni": [
+        "Il telegrafo senza fili",
+        "Il telefono fisso",
+        "La lampadina"
+      ],
+      "risposta": "A",
+      "gettone": "ISTRUZIONE"
+    },
+    {
+      "era": 1,
+      "domanda": "Tra il 1880 e il 1910 milioni di italiani lasciarono il Paese per cercare lavoro nelle Americhe.",
+      "opzioni": [
+        "Vero",
+        "Falso"
+      ],
+      "risposta": "A",
+      "gettone": "DIGNITÀ"
+    },
+    {
+      "era": 1,
+      "domanda": "La legge sulle tutele del lavoro minorile e femminile fu introdotta per la prima volta in epoca giolittiana.",
+      "opzioni": [
+        "Vero",
+        "Falso"
+      ],
+      "risposta": "A",
+      "gettone": "LAVORO"
+    },
+    {
+      "era": 1,
+      "domanda": "Nel 1899 sono stata fondata a Torino e sono diventata il simbolo dell'industria automobilistica italiana. Chi sono?",
+      "opzioni": [],
+      "risposta": "La FIAT",
+      "gettone": "LAVORO"
+    },
+    {
+      "era": 1,
+      "domanda": "Nel 1898 ho ordinato di sparare con i cannoni sulla folla che protestava per il pane a Milano. Chi sono?",
+      "opzioni": [],
+      "risposta": "Il generale Bava Beccaris",
+      "gettone": "DIGNITÀ"
+    },
+    {
+      "era": 1,
+      "domanda": "Sei un maestro di scuola nel 1880: molti genitori contadini non mandano i figli a scuola per farli lavorare nei campi. Cosa dici loro per convincerli?",
+      "opzioni": [],
+      "risposta": "SFIDA ROLE-PLAY: Lo studente deve spiegare in 30 secondi come l'istruzione garantisca un futuro migliore e l'uscita dalla povertà per i figli.",
+      "gettone": "ISTRUZIONE"
+    },
+    {
+      "era": 1,
+      "domanda": "Sei un operaio a Torino nel 1904: i tuoi compagni proclamano il primo Sciopero Generale per i diritti sul lavoro. Aderisci rischiando il licenziamento?",
+      "opzioni": [],
+      "risposta": "SFIDA ROLE-PLAY: Lo studente deve argomentare l'importanza della solidarietà tra lavoratori e della lotta per i diritti collettivi.",
+      "gettone": "UGUAGLIANZA"
+    },
+    {
+      "era": 2,
+      "domanda": "In quale anno l'Italia entrò nella Prima guerra mondiale a fianco delle potenze dell'Intesa?",
+      "opzioni": [
+        "1914",
+        "1915",
+        "1917"
+      ],
+      "risposta": "B",
+      "gettone": "PACE"
+    },
+    {
+      "era": 2,
+      "domanda": "Quale disastrosa sconfitta subì l'esercito italiano nel 1917 prima della riscossa sul Piave?",
+      "opzioni": [
+        "Disfatta di Caporetto",
+        "Battaglia di Vittorio Veneto",
+        "Battaglia di San Martino"
+      ],
+      "risposta": "A",
+      "gettone": "PACE"
+    },
+    {
+      "era": 2,
+      "domanda": "Quale deputato socialista fu rapito e ucciso nel 1924 dopo aver denunciato le violenze fasciste?",
+      "opzioni": [
+        "Giacomo Matteotti",
+        "Antonio Gramsci",
+        "Piero Gobetti"
+      ],
+      "risposta": "A",
       "gettone": "LIBERTÀ"
     },
     {
       "era": 2,
-      "domanda": "Che cos'era la CLN durante il periodo della Resistenza italiana?",
-      "opzioni": ["Comitato di Liberazione Nazionale", "Confederazione Lavoratori del Nord", "Comando Legione Nuova"],
+      "domanda": "In quale anno il regime fascista emanò in Italia le discriminatorie Leggi Razziali?",
+      "opzioni": [
+        "1925",
+        "1935",
+        "1938"
+      ],
+      "risposta": "C",
+      "gettone": "UGUAGLIANZA"
+    },
+    {
+      "era": 2,
+      "domanda": "Quale data viene celebrata ogni anno in Italia come anniversario della Liberazione dal nazi-fascismo?",
+      "opzioni": [
+        "25 Aprile",
+        "1° Maggio",
+        "4 Novembre"
+      ],
+      "risposta": "A",
+      "gettone": "LIBERTÀ"
+    },
+    {
+      "era": 2,
+      "domanda": "Il Comitato di Liberazione Nazionale (CLN) coordinava le formazioni partigiane contro i nazi-fascisti.",
+      "opzioni": [
+        "Vero",
+        "Falso"
+      ],
+      "risposta": "A",
+      "gettone": "LIBERTÀ"
+    },
+    {
+      "era": 2,
+      "domanda": "Ero una donna e portavo informazioni, armi e cibo ai partigiani rischiando la vita ad ogni posto di blocco. Chi sono?",
+      "opzioni": [],
+      "risposta": "La staffetta partigiana",
+      "gettone": "DIGNITÀ"
+    },
+    {
+      "era": 2,
+      "domanda": "Siamo stati approvati nel 1925 per abolire tutti i partiti d'opposizione e la libertà di stampa in Italia. Cosa siamo?",
+      "opzioni": [],
+      "risposta": "I decreti o Leggi Fascistissime",
+      "gettone": "LIBERTÀ"
+    },
+    {
+      "era": 2,
+      "domanda": "Sei un tipografo nel 1944: i partigiani ti chiedono di stampare di nascosto un giornale antifascista clandestino. Come giustifichi il tuo rischio?",
+      "opzioni": [],
+      "risposta": "SFIDA ROLE-PLAY: Lo studente deve spiegare il valore della verità e della libertà di pensiero da difendere contro la censura.",
+      "gettone": "LIBERTÀ"
+    },
+    {
+      "era": 2,
+      "domanda": "Sei un giovane soldato al fronte nel 1916 e un tuo compagno vuole disertare per la disperazione della trincea. Cosa gli dici per sostenerlo?",
+      "opzioni": [],
+      "risposta": "SFIDA ROLE-PLAY: Lo studente deve esprimere empatia per la sofferenza della guerra sottolineando il valore dell'aiuto reciproco.",
+      "gettone": "PACE"
+    },
+    {
+      "era": 3,
+      "domanda": "Quale importante diritto ottennero per la prima volta su scala nazionale le donne italiane nel 1945-1946?",
+      "opzioni": [
+        "Diritto di voto",
+        "Diritto al divorzio",
+        "Diritto di proprietà"
+      ],
+      "risposta": "A",
+      "gettone": "UGUAGLIANZA"
+    },
+    {
+      "era": 3,
+      "domanda": "Quale articolo della Costituzione sancisce il principio di uguaglianza formale e sostanziale dei cittadini?",
+      "opzioni": [
+        "Articolo 1",
+        "Articolo 3",
+        "Articolo 10"
+      ],
+      "risposta": "B",
+      "gettone": "UGUAGLIANZA"
+    },
+    {
+      "era": 3,
+      "domanda": "Quale articolo della Costituzione tutela la salute come fondamentale diritto dell'individuo?",
+      "opzioni": [
+        "Articolo 12",
+        "Articolo 32",
+        "Articolo 41"
+      ],
+      "risposta": "B",
+      "gettone": "DIGNITÀ"
+    },
+    {
+      "era": 3,
+      "domanda": "L'Articolo 9 della Costituzione impegna la Repubblica a tutelare il paesaggio e...",
+      "opzioni": [
+        "Il patrimonio storico e artistico",
+        "La produzione industriale",
+        "I confini nazionali"
+      ],
+      "risposta": "A",
+      "gettone": "ISTRUZIONE"
+    },
+    {
+      "era": 3,
+      "domanda": "Quale organo della Repubblica ha il compito di verificare che le leggi approvate siano conformi alla Costituzione?",
+      "opzioni": [
+        "Corte Costituzionale",
+        "Consiglio di Stato",
+        "Corte di Cassazione"
+      ],
+      "risposta": "A",
+      "gettone": "DIGNITÀ"
+    },
+    {
+      "era": 3,
+      "domanda": "L'Articolo 11 della Costituzione dichiara che l'Italia ripudia la guerra come strumento di offesa.",
+      "opzioni": [
+        "Vero",
+        "Falso"
+      ],
       "risposta": "A",
       "gettone": "PACE"
     },
     {
       "era": 3,
-      "domanda": "In quale data entrò in vigore la Costituzione della Repubblica Italiana?",
+      "domanda": "Di quanti articoli in totale è composta la Costituzione Italiana approvata nel 1947?",
       "opzioni": [],
-      "risposta": "Il 1° gennaio 1948",
+      "risposta": "139 articoli",
+      "gettone": "LIBERTÀ"
+    },
+    {
+      "era": 3,
+      "domanda": "Siamo state 21 donne elette nel 1946 per aiutare a scrivere la Costituzione della Repubblica. Chi siamo?",
+      "opzioni": [],
+      "risposta": "Le Madri Costituenti",
       "gettone": "UGUAGLIANZA"
+    },
+    {
+      "era": 3,
+      "domanda": "Sei un deputato dell'Assemblea Costituente nel 1947 di idee politiche opposte a un altro collega. Come trovi un compromesso sull'Articolo 3?",
+      "opzioni": [],
+      "risposta": "SFIDA ROLE-PLAY: Lo studente deve spiegare il valore dell'ascolto, della mediazione e del rispetto per raggiungere l'interesse comune.",
+      "gettone": "UGUAGLIANZA"
+    },
+    {
+      "era": 3,
+      "domanda": "Un cittadino sostiene che si possa approvare una legge che discrimina un gruppo sociale. Come spieghi il ruolo supremo della Costituzione?",
+      "opzioni": [],
+      "risposta": "SFIDA ROLE-PLAY: Lo studente deve spiegare che la Costituzione è la legge fondamentale che garantisce i diritti inalienabili di tutti e non può essere infranta.",
+      "gettone": "DIGNITÀ"
     }
   ]
 }
