@@ -1,0 +1,8 @@
+<svg viewBox="0 0 100 100" width="100" height="100" xmlns="http://www.w3.org/2000/svg">
+  <!-- Linea d'angolo decorata -->
+  <path d="M 10,90 L 10,10 L 90,10" fill="none" stroke="#2B231D" stroke-width="3" stroke-linecap="round"/>
+  <path d="M 16,84 L 16,16 L 84,16" fill="none" stroke="#2B231D" stroke-width="1" stroke-linecap="round" stroke-dasharray="2,2"/>
+  <!-- Rosetta decorativa d'angolo -->
+  <circle cx="16" cy="16" r="6" fill="#2B231D"/>
+  <circle cx="16" cy="16" r="3" fill="#DFD0B8"/>
+</svg>

@@ -109,6 +109,7 @@ interface LayerBase {
   visible: boolean;
   /** un layer bloccato non si sposta/ridimensiona dal canvas (es. sfondi a tutta carta) */
   locked?: boolean;
+  side?: 'front' | 'back';
 }
 
 export interface ImageLayer extends LayerBase {
@@ -157,4 +158,5 @@ export interface RenderOpts {
   snapped?: boolean;
   snappedH?: boolean;
   snappedV?: boolean;
+  side?: 'front' | 'back';
 }

@@ -33,12 +33,24 @@ export function LayerPanel({
   const activeSvg = selectedSvg || assetFiles[0] || '';
 
   const moveZ = (layerId: string, dir: 1 | -1) => {
-    const ordered = sortedLayers(template);
-    const idx = ordered.findIndex((l) => l.id === layerId);
-    const other = ordered[idx + dir];
-    if (idx < 0 || !other) return;
-    const l = ordered[idx];
-    [l.z, other.z] = [other.z, l.z];
+    const target = template.layers.find((l) => l.id === layerId);
+    if (!target) return;
+    const side = target.side ?? 'front';
+    
+    // Filtra i layer dello stesso lato ordinati per Z
+    const sameSideLayers = template.layers
+      .filter((l) => (l.side ?? 'front') === side)
+      .sort((a, b) => a.z - b.z);
+    
+    const idx = sameSideLayers.findIndex((l) => l.id === layerId);
+    const other = sameSideLayers[idx + dir];
+    if (!other) return;
+    
+    // Scambia i valori di Z
+    const tempZ = target.z;
+    target.z = other.z;
+    other.z = tempZ;
+    
     onChange();
   };
 
@@ -54,7 +66,14 @@ export function LayerPanel({
     if (!svgPath) return;
     const baseName = svgPath.split('/').pop()?.replace(/\.[^/.]+$/, '') || 'Nuovo SVG';
     const formattedName = baseName.charAt(0).toUpperCase() + baseName.slice(1).replace(/[_-]/g, ' ');
-    const maxZ = template.layers.reduce((max, l) => Math.max(max, l.z), 0);
+    
+    // Determina il lato predefinito basandosi sulla selezione corrente
+    const currentSel = template.layers.find((l) => l.id === selectedId);
+    const side = currentSel?.side === 'back' ? 'back' : 'front';
+    
+    // Calcola il maxZ specifico per quel lato
+    const sideLayers = template.layers.filter((l) => (l.side ?? 'front') === side);
+    const maxZ = sideLayers.reduce((max, l) => Math.max(max, l.z), 0);
 
     const cw = template.canvas?.w ?? 822;
     const ch = template.canvas?.h ?? 1122;
@@ -71,6 +90,7 @@ export function LayerPanel({
       rect: { x, y, w, h },
       z: maxZ + 10,
       visible: true,
+      side: side === 'back' ? 'back' : undefined,
     };
 
     template.layers.push(newLayer);
@@ -155,9 +175,9 @@ export function LayerPanel({
         )}
       </div>
 
-      {/* Lista dei livelli attuali */}
-      <div className="layers">
-        {sortedLayers(template).reverse().map((l) => (
+      {/* Componente di rendering per una riga di livello */}
+      {(() => {
+        const renderLayerRow = (l: Layer) => (
           <div key={l.id} className={`layer-row ${selectedId === l.id ? 'on' : ''}`}>
             <input
               type="checkbox"
@@ -180,8 +200,40 @@ export function LayerPanel({
               </button>
             )}
           </div>
-        ))}
-      </div>
+        );
+
+        return (
+          <>
+            {/* Lista dei livelli del Fronte */}
+            <div style={{ fontSize: '0.78rem', fontWeight: 700, color: 'var(--oro)', marginTop: '16px', marginBottom: '8px', borderBottom: '1px solid rgba(201,168,107,0.25)', paddingBottom: '4px', letterSpacing: '0.05em' }}>
+              🌅 LIVELLI DEL FRONTE
+            </div>
+            <div className="layers" style={{ marginBottom: '20px' }}>
+              {(() => {
+                const list = sortedLayers(template).reverse().filter((l) => (l.side ?? 'front') === 'front');
+                if (list.length === 0) {
+                  return <p className="hint" style={{ padding: '8px 4px', margin: 0, fontSize: '0.78rem' }}>Nessun livello sul fronte</p>;
+                }
+                return list.map((l) => renderLayerRow(l));
+              })()}
+            </div>
+
+            {/* Lista dei livelli del Retro */}
+            <div style={{ fontSize: '0.78rem', fontWeight: 700, color: 'var(--oro)', marginTop: '16px', marginBottom: '8px', borderBottom: '1px solid rgba(201,168,107,0.25)', paddingBottom: '4px', letterSpacing: '0.05em' }}>
+              🌌 LIVELLI DEL RETRO
+            </div>
+            <div className="layers" style={{ marginBottom: '12px' }}>
+              {(() => {
+                const list = sortedLayers(template).reverse().filter((l) => l.side === 'back');
+                if (list.length === 0) {
+                  return <p className="hint" style={{ padding: '8px 4px', margin: 0, fontSize: '0.78rem' }}>Nessun livello sul retro</p>;
+                }
+                return list.map((l) => renderLayerRow(l));
+              })()}
+            </div>
+          </>
+        );
+      })()}
 
       {/* Dettaglio del livello selezionato */}
       {sel && (
@@ -218,6 +270,18 @@ export function LayerPanel({
               </select>
             </>
           )}
+          <label className="field" style={{ fontSize: '0.75rem', marginBottom: '4px', marginTop: '8px' }}>Lato della carta:</label>
+          <select
+            value={sel.side ?? 'front'}
+            onChange={(e) => {
+              sel.side = e.target.value as 'front' | 'back';
+              onChange();
+            }}
+            style={{ fontSize: '0.8rem' }}
+          >
+            <option value="front">🌅 Fronte (Front)</option>
+            <option value="back">🌌 Retro (Back)</option>
+          </select>
         </div>
       )}
 

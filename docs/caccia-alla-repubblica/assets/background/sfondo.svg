@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1122 822">
+  <defs>
+    <!-- Pattern di linee ondulate diagonali fitto in puro bianco e nero -->
+    <pattern id="wavy-diagonal-bw" width="40" height="40" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+      <!-- Onde parallele fitte e pulite con deviazione dolce -->
+      <path d="M 0,0 C 3,10 3,10 0,20 C -3,30 -3,30 0,40" fill="none" stroke="#000000" stroke-width="1.2"/>
+      <path d="M 10,0 C 13,10 13,10 10,20 C 7,30 7,30 10,40" fill="none" stroke="#000000" stroke-width="1.2"/>
+      <path d="M 20,0 C 23,10 23,10 20,20 C 17,30 17,30 20,40" fill="none" stroke="#000000" stroke-width="1.2"/>
+      <path d="M 30,0 C 33,10 33,10 30,20 C 27,30 27,30 30,40" fill="none" stroke="#000000" stroke-width="1.2"/>
+    </pattern>
+  </defs>
+  
+  <!-- Base bianca solida per il bianco e nero -->
+  <rect width="1122" height="822" fill="#FFFFFF"/>
+  
+  <!-- Reticolo di linee ondulate diagonali nere -->
+  <rect width="1122" height="822" fill="url(#wavy-diagonal-bw)"/>
+</svg>

@@ -84,7 +84,11 @@ export function renderTemplate(
 ) {
   c.clearRect(0, 0, W, H);
 
+  const side = opts.side ?? 'front';
+
   for (const l of sortedLayers(tpl)) {
+    const lSide = l.side ?? 'front';
+    if (lSide !== side) continue;
     if (!l.visible) continue;
     if (l.type === 'image') {
       const img = images[resolvePattern(l.src, card)];
@@ -114,7 +118,7 @@ export function renderTemplate(
 
   if (opts.editing && opts.selectedId) {
     const sel = tpl.layers.find((l) => l.id === opts.selectedId);
-    if (sel && sel.visible) {
+    if (sel && sel.visible && (sel.side ?? 'front') === side) {
       c.strokeStyle = 'rgba(201,168,107,.9)';
       c.lineWidth = 2.5;
       c.setLineDash([9, 7]);
