@@ -1,0 +1,16 @@
+{
+  "imprevisti": [
+    {
+      "titolo": "Censura!",
+      "testo": "La libertà di stampa viene fortemente limitata dalle autorità. Le comunicazioni del vostro gruppo sono bloccate.",
+      "effetto": "Perdi un turno",
+      "tipo": "malus"
+    },
+    {
+      "titolo": "Moti Popolari",
+      "testo": "La popolazione scende in piazza per chiedere riforme giuste e rappresentanza democratica.",
+      "effetto": "Avanza di 2 caselle",
+      "tipo": "bonus"
+    }
+  ]
+}

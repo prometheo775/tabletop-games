@@ -1,0 +1,136 @@
+@import 'tailwindcss';
+
+/* ---------- tema shadcn/ui — palette "tavolo da gioco d'epoca" ---------- */
+:root {
+  --background: #221a12;
+  --foreground: #f0e4c8;
+  --card: #2e2620;
+  --card-foreground: #f0e4c8;
+  --popover: #352c23;
+  --popover-foreground: #f0e4c8;
+  --primary: #c9a86b;
+  --primary-foreground: #221a12;
+  --secondary: #40352b;
+  --secondary-foreground: #e8d6a8;
+  --muted: #352c23;
+  --muted-foreground: rgba(240, 228, 200, 0.62);
+  --accent: #40352b;
+  --accent-foreground: #e8d6a8;
+  --destructive: #b03a2e;
+  --destructive-foreground: #ffffff;
+  --border: #5a4a38;
+  --input: #5a4a38;
+  --ring: #c9a86b;
+  --radius: 0.625rem;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --font-display: 'Fraunces', 'Palatino Linotype', Georgia, serif;
+  --font-sans: 'Inter', system-ui, sans-serif;
+}
+
+@layer base {
+  .hub-root {
+    border-color: var(--border);
+    outline-color: color-mix(in srgb, var(--ring) 50%, transparent);
+  }
+}
+
+/* ---------- prosa dei documenti markdown (l'hub renderizza docs/) ---------- */
+.hub-prose {
+  color: var(--foreground);
+  line-height: 1.7;
+  font-size: 0.95rem;
+}
+.hub-prose h1, .hub-prose h2, .hub-prose h3, .hub-prose h4 {
+  font-family: 'Fraunces', 'Palatino Linotype', Georgia, serif;
+  color: #e8d6a8;
+  letter-spacing: 0.01em;
+  margin: 1.6em 0 0.6em;
+  line-height: 1.25;
+}
+.hub-prose h1 { font-size: 1.6rem; margin-top: 0.4em; }
+.hub-prose h2 { font-size: 1.25rem; border-bottom: 1px solid rgba(201, 168, 107, 0.25); padding-bottom: 0.3em; }
+.hub-prose h3 { font-size: 1.05rem; }
+.hub-prose p { margin: 0.75em 0; }
+.hub-prose a { color: #c9a86b; text-decoration: underline; text-underline-offset: 3px; }
+.hub-prose strong { color: #e8d6a8; }
+.hub-prose ul, .hub-prose ol { margin: 0.75em 0; padding-left: 1.4em; }
+.hub-prose ul { list-style: disc; }
+.hub-prose ol { list-style: decimal; }
+.hub-prose li { margin: 0.3em 0; }
+.hub-prose blockquote {
+  border-left: 3px solid #c9a86b;
+  background: rgba(201, 168, 107, 0.07);
+  padding: 0.6em 1em;
+  margin: 1em 0;
+  border-radius: 0 8px 8px 0;
+  color: rgba(240, 228, 200, 0.85);
+  font-style: italic;
+}
+.hub-prose code {
+  background: rgba(0, 0, 0, 0.35);
+  border: 1px solid rgba(90, 74, 56, 0.6);
+  border-radius: 5px;
+  padding: 0.1em 0.35em;
+  font-family: ui-monospace, Consolas, monospace;
+  font-size: 0.82em;
+}
+.hub-prose pre {
+  background: rgba(0, 0, 0, 0.35);
+  border: 1px solid rgba(90, 74, 56, 0.6);
+  border-radius: 10px;
+  padding: 0.9em 1.1em;
+  overflow-x: auto;
+  margin: 1em 0;
+}
+.hub-prose pre code { background: none; border: none; padding: 0; }
+.hub-prose table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1em 0;
+  font-size: 0.88em;
+}
+.hub-prose th {
+  text-align: left;
+  font-family: 'Fraunces', Georgia, serif;
+  color: #c9a86b;
+  border-bottom: 2px solid rgba(201, 168, 107, 0.4);
+  padding: 0.5em 0.7em;
+}
+.hub-prose td {
+  border-bottom: 1px solid rgba(90, 74, 56, 0.5);
+  padding: 0.5em 0.7em;
+  vertical-align: top;
+}
+.hub-prose img {
+  max-width: 220px;
+  border-radius: 10px;
+  border: 2px solid rgba(90, 74, 56, 0.8);
+  margin: 0.5em 0;
+  display: block;
+}
+.hub-prose hr { border: none; border-top: 1px solid rgba(90, 74, 56, 0.7); margin: 1.6em 0; }

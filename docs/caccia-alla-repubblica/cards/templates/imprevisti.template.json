@@ -1,0 +1,65 @@
+{
+  "deck": "imprevisti",
+  "version": 1,
+  "canvas": { "w": 1122, "h": 822 },
+  "layers": [
+    {
+      "id": "sfondo",
+      "name": "Sfondo",
+      "type": "image",
+      "src": "assets/imprevisti/sfondo.svg",
+      "rect": { "x": 0, "y": 0, "w": 1122, "h": 822 },
+      "z": 0,
+      "visible": true,
+      "locked": true
+    },
+    {
+      "id": "box-testo",
+      "name": "Box pergamena",
+      "type": "image",
+      "src": "assets/tbox.svg",
+      "rect": { "x": 64, "y": 64, "w": 994, "h": 694 },
+      "z": 10,
+      "visible": true
+    },
+    {
+      "id": "cornice",
+      "name": "Cornice pelle",
+      "type": "image",
+      "src": "assets/frame-orizzontale.svg",
+      "rect": { "x": 0, "y": 0, "w": 1122, "h": 822 },
+      "z": 20,
+      "visible": true,
+      "locked": true
+    },
+    {
+      "id": "targhetta",
+      "name": "Targhetta",
+      "type": "image",
+      "src": "assets/plate.svg",
+      "rect": { "x": 301, "y": 34, "w": 520, "h": 137 },
+      "z": 30,
+      "visible": true
+    },
+    {
+      "id": "titolo",
+      "name": "Titolo",
+      "type": "text",
+      "pattern": "IMPREVISTO",
+      "rect": { "x": 331, "y": 34, "w": 460, "h": 137 },
+      "z": 31,
+      "visible": true,
+      "style": { "size": 40, "bold": true, "color": "#F0E0BE", "align": "center", "valign": "middle", "shrink": true }
+    },
+    {
+      "id": "contenuto",
+      "name": "Contenuto evento",
+      "type": "block",
+      "block": "event",
+      "rect": { "x": 64, "y": 64, "w": 994, "h": 694 },
+      "z": 40,
+      "visible": true,
+      "padTop": 121
+    }
+  ]
+}
