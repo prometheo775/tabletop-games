@@ -126,14 +126,18 @@ export default function ProjectPage({ params }: { params: Promise<{ id: string }
   // cambiando tab si azzera la selezione del layer
   useEffect(() => { setSelLayer(null); }, [tab]);
 
-  // elenco degli asset disponibili nella cartella del gioco (per sostituire i layer)
-  useEffect(() => {
-    if (!p) return;
+  // elenco degli asset disponibili nella cartella del gioco (per sostituire i layer o aggiungerne di nuovi)
+  const refreshAssets = useCallback(() => {
+    if (!slug) return;
     fetch(`/api/docs-asset?slug=${encodeURIComponent(slug)}&list=assets`)
       .then((r) => (r.ok ? r.json() : { files: [] }))
       .then((j) => setAssetFiles(Array.isArray(j.files) ? j.files : []))
       .catch(() => setAssetFiles([]));
-  }, [p, slug]);
+  }, [slug]);
+
+  useEffect(() => {
+    if (p) refreshAssets();
+  }, [p, refreshAssets]);
 
   const geom: CanvasGeom | null = useMemo(() => {
     if (!p) return null;
@@ -422,6 +426,7 @@ export default function ProjectPage({ params }: { params: Promise<{ id: string }
               assetFiles={assetFiles}
               onChange={touch}
               onAssetReplaced={ensureTplImages}
+              onRefreshAssets={refreshAssets}
               downloadFilename={`${TPL_META[tab].file}.template.json`}
             />
           )}

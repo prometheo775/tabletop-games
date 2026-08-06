@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000" width="1000" height="1000">
+  <defs>
+    <path id="arcTop" d="M 220 390 A 300 300 0 0 1 780 390"/>
+  </defs>
+
+  <rect width="1000" height="1000" fill="white"/>
+
+  <!-- Doppio cerchio -->
+  <circle cx="500" cy="500" r="410" fill="none" stroke="#111" stroke-width="18"/>
+  <circle cx="500" cy="500" r="372" fill="none" stroke="#111" stroke-width="6"/>
+
+  <!-- Titolo completamente interno al cerchio -->
+  <text font-family="Courier Prime, Courier New, monospace"
+        font-size="84"
+        font-weight="700"
+        letter-spacing="6"
+        fill="#111">
+    <textPath href="#arcTop" startOffset="50%" text-anchor="middle">ARCHIVIO</textPath>
+  </text>
+
+  <text x="500" y="350"
+        text-anchor="middle"
+        font-family="Courier Prime, Courier New, monospace"
+        font-size="84"
+        font-weight="700"
+        letter-spacing="6"
+        fill="#111">STORICO</text>
+
+  <!-- Documenti -->
+  <g fill="white" stroke="#111" stroke-linejoin="round" stroke-linecap="round">
+    <rect x="360" y="470" width="120" height="170" rx="10" stroke-width="10"/>
+    <rect x="520" y="470" width="120" height="170" rx="10" stroke-width="10"/>
+
+    <path d="M420 430 H555 L600 475 V645 H420 Z" stroke-width="12"/>
+    <path d="M555 430 V475 H600" fill="none" stroke-width="12"/>
+
+    <line x1="455" y1="495" x2="555" y2="495" stroke-width="8"/>
+    <line x1="455" y1="530" x2="570" y2="530" stroke-width="8"/>
+    <line x1="455" y1="565" x2="570" y2="565" stroke-width="8"/>
+  </g>
+
+  <!-- Scatola archivio -->
+  <g fill="white" stroke="#111" stroke-linejoin="round">
+    <path d="M320 610 H680 V690 H650 V800 H350 V690 H320 Z" stroke-width="16"/>
+    <rect x="410" y="710" width="180" height="70" rx="10" stroke-width="12"/>
+    <rect x="460" y="735" width="80" height="22" rx="4" stroke-width="8"/>
+  </g>
+</svg>

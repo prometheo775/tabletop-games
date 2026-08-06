@@ -329,6 +329,50 @@ html, body {
     line-height: 1;
   }
   .layer-row .layer-z:hover { color: var(--oro); border-color: var(--oro); }
+  .layer-row .layer-del {
+    background: none;
+    border: 1px solid transparent;
+    border-radius: 6px;
+    color: #e88a7a;
+    font-size: 0.75rem;
+    width: 22px;
+    height: 20px;
+    line-height: 1;
+    cursor: pointer;
+    opacity: 0.6;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .layer-row .layer-del:hover {
+    opacity: 1;
+    border-color: rgba(232, 138, 122, 0.4);
+    background: rgba(176, 58, 46, 0.15);
+  }
+
+  .asset-picker-box {
+    background: var(--panel-2);
+    border: 1px solid var(--bordo);
+    border-radius: 8px;
+    padding: 10px;
+    margin-bottom: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .asset-picker-box select {
+    width: 100%;
+  }
+  .asset-picker-actions {
+    display: flex;
+    gap: 6px;
+    margin-top: 2px;
+  }
+  .asset-picker-actions button {
+    flex: 1;
+    font-size: 0.75rem;
+    padding: 6px 8px;
+  }
 
   .thumbs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
   .thumb { cursor: pointer; text-align: center; background: none; border: none; color: var(--testo); padding: 0; }

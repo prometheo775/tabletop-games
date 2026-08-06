@@ -12,7 +12,7 @@ interface Props {
   layers: Layer[] | null;
   selectedId: string | null;
   onSelect: (id: string | null) => void;
-  paint: (c: CanvasRenderingContext2D, o: { guide: boolean; snapped: boolean }) => void;
+  paint: (c: CanvasRenderingContext2D, o: { guide: boolean; snapped: boolean; snappedH?: boolean; snappedV?: boolean }) => void;
   onChange?: () => void;
   guideEnabled?: boolean;
 }
@@ -27,12 +27,18 @@ export function LayerCanvas({
 }: Props) {
   const ref = useRef<HTMLCanvasElement>(null);
   const drag = useRef<DragState | null>(null);
-  const snapped = useRef(false);
+  const snappedV = useRef(false);
+  const snappedH = useRef(false);
 
   const repaint = useCallback(() => {
     const c = ref.current?.getContext('2d');
     if (!c) return;
-    paint(c, { guide: guideEnabled && drag.current?.kind === 'move', snapped: snapped.current });
+    paint(c, {
+      guide: guideEnabled && drag.current?.kind === 'move',
+      snapped: snappedV.current || snappedH.current,
+      snappedV: snappedV.current,
+      snappedH: snappedH.current,
+    });
   }, [paint, guideEnabled]);
 
   useEffect(() => { repaint(); }, [repaint, w, h]);
@@ -80,14 +86,20 @@ export function LayerCanvas({
       if (e.shiftKey) nh = nw / d.aspect;
       l.rect.w = nw;
       l.rect.h = nh;
-      snapped.current = false;
+      snappedV.current = false;
+      snappedH.current = false;
     } else {
       let nx = Math.min(Math.max(p.x - d.dx, -60), w - l.rect.w + 60);
-      const ny = Math.min(Math.max(p.y - d.dy, -60), h - l.rect.h + 60);
-      snapped.current = false;
+      let ny = Math.min(Math.max(p.y - d.dy, -60), h - l.rect.h + 60);
+      snappedV.current = false;
+      snappedH.current = false;
       if (guideEnabled && Math.abs(nx + l.rect.w / 2 - w / 2) <= SNAP) {
         nx = w / 2 - l.rect.w / 2;
-        snapped.current = true;
+        snappedV.current = true;
+      }
+      if (guideEnabled && Math.abs(ny + l.rect.h / 2 - h / 2) <= SNAP) {
+        ny = h / 2 - l.rect.h / 2;
+        snappedH.current = true;
       }
       l.rect.x = nx;
       l.rect.y = ny;
@@ -98,7 +110,8 @@ export function LayerCanvas({
 
   const onUp = () => {
     drag.current = null;
-    snapped.current = false;
+    snappedV.current = false;
+    snappedH.current = false;
     repaint();
   };
 

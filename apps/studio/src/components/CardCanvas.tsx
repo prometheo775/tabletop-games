@@ -12,7 +12,7 @@ interface Props {
   h: number;
   /** rettangoli manipolabili; null = solo anteprima */
   geom: CanvasGeom | null;
-  paint: (c: CanvasRenderingContext2D, o: { guide: boolean; snapped: boolean }) => void;
+  paint: (c: CanvasRenderingContext2D, o: { guide: boolean; snapped: boolean; snappedH?: boolean; snappedV?: boolean }) => void;
   onGeomChange?: () => void;
   guideEnabled?: boolean;
   onNavigate?: (dir: -1 | 1) => void;
@@ -28,13 +28,19 @@ export function CardCanvas({
   const ref = useRef<HTMLCanvasElement>(null);
   const drag = useRef<DragState | null>(null);
   const selected = useRef<'plate' | 'box' | null>(null);
-  const snapped = useRef(false);
+  const snappedV = useRef(false);
+  const snappedH = useRef(false);
 
   const repaint = useCallback(() => {
     const cv = ref.current;
     const c = cv?.getContext('2d');
     if (!cv || !c) return;
-    paint(c, { guide: guideEnabled && drag.current?.kind === 'move', snapped: snapped.current });
+    paint(c, {
+      guide: guideEnabled && drag.current?.kind === 'move',
+      snapped: snappedV.current || snappedH.current,
+      snappedV: snappedV.current,
+      snappedH: snappedH.current,
+    });
   }, [paint, guideEnabled]);
 
   useEffect(() => {
@@ -83,14 +89,20 @@ export function CardCanvas({
       if (e.shiftKey) nh = nw / d.aspect;
       el.w = nw;
       el.h = nh;
-      snapped.current = false;
+      snappedV.current = false;
+      snappedH.current = false;
     } else {
       let nx = Math.min(Math.max(p.x - d.dx, -60), w - el.w + 60);
-      const ny = Math.min(Math.max(p.y - d.dy, -60), h - el.h + 60);
-      snapped.current = false;
+      let ny = Math.min(Math.max(p.y - d.dy, -60), h - el.h + 60);
+      snappedV.current = false;
+      snappedH.current = false;
       if (guideEnabled && Math.abs(nx + el.w / 2 - w / 2) <= SNAP) {
         nx = w / 2 - el.w / 2;
-        snapped.current = true;
+        snappedV.current = true;
+      }
+      if (guideEnabled && Math.abs(ny + el.h / 2 - h / 2) <= SNAP) {
+        ny = h / 2 - el.h / 2;
+        snappedH.current = true;
       }
       el.x = nx;
       el.y = ny;
@@ -101,7 +113,8 @@ export function CardCanvas({
 
   const onUp = () => {
     drag.current = null;
-    snapped.current = false;
+    snappedV.current = false;
+    snappedH.current = false;
     repaint();
   };
 

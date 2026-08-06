@@ -155,4 +155,6 @@ export interface RenderOpts {
   cutLine?: boolean;
   guide?: boolean;
   snapped?: boolean;
+  snappedH?: boolean;
+  snappedV?: boolean;
 }

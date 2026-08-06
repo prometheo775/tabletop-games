@@ -130,16 +130,29 @@ export function drawStar(c: Ctx, cx: number, cy: number, s: number, color: strin
 
 export function drawOverlays(
   c: Ctx, W: number, H: number,
-  opts: { guide?: boolean; snapped?: boolean; cutLine?: boolean },
+  opts: { guide?: boolean; snapped?: boolean; snappedH?: boolean; snappedV?: boolean; cutLine?: boolean },
 ) {
   if (opts.guide) {
-    c.strokeStyle = opts.snapped ? 'rgba(232,160,90,.95)' : 'rgba(201,168,107,.55)';
-    c.lineWidth = opts.snapped ? 2.5 : 1.5;
+    const isSnapV = opts.snappedV ?? opts.snapped ?? false;
+    const isSnapH = opts.snappedH ?? false;
+
+    // Linea guida verticale (centro X)
+    c.strokeStyle = isSnapV ? 'rgba(232,160,90,.95)' : 'rgba(201,168,107,.55)';
+    c.lineWidth = isSnapV ? 2.5 : 1.5;
     c.setLineDash([10, 8]);
     c.beginPath();
     c.moveTo(W / 2, 0);
     c.lineTo(W / 2, H);
     c.stroke();
+
+    // Linea guida orizzontale (centro Y)
+    c.strokeStyle = isSnapH ? 'rgba(232,160,90,.95)' : 'rgba(201,168,107,.55)';
+    c.lineWidth = isSnapH ? 2.5 : 1.5;
+    c.beginPath();
+    c.moveTo(0, H / 2);
+    c.lineTo(W, H / 2);
+    c.stroke();
+
     c.setLineDash([]);
   }
   if (opts.cutLine) {
