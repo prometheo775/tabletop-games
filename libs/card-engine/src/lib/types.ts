@@ -103,6 +103,8 @@ export interface BlueprintSetting {
    * - 'original': dimensioni native del file, centrata, senza alcuna deformazione
    */
   fit?: 'stretch' | 'original';
+  /** rotazione in senso orario, per riusare lo stesso schema su carte orizzontali */
+  rotation?: 0 | 90 | 180 | 270;
 }
 
 /* ---------- sistema a layer (carte componibili da SVG) ---------- */

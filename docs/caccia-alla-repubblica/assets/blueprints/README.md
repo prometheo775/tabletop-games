@@ -8,3 +8,7 @@ solo come guida — non finiscono mai nei PNG esportati.
 
 I due file "carta-*.svg" sono guide d'esempio generate (taglio ciano, area sicura
 magenta): sostituiscili o affiancali con quelli ufficiali della tua tipografia.
+
+Nota tecnica: gli SVG devono avere gli attributi `width` e `height` (non solo il
+viewBox), altrimenti la modalità "Dimensioni originali" non può conoscere la
+dimensione nativa del file.

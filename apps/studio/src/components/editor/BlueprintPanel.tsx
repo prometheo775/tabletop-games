@@ -47,6 +47,19 @@ export function BlueprintPanel({ files, setting, onChange }: Props) {
             <option value="stretch">Adatta alla carta (stira il file)</option>
             <option value="original">Originali del file (centrato, nessuna deformazione)</option>
           </select>
+          <label className="field">Rotazione</label>
+          <div className="row">
+            {([0, 90, 180, 270] as const).map((deg) => (
+              <button
+                key={deg}
+                className={`btn ${(setting.rotation ?? 0) === deg ? 'btn-primary' : 'btn-secondary'}`}
+                style={{ flex: 1, padding: '6px 0', marginTop: 0 }}
+                onClick={() => onChange({ ...setting, rotation: deg })}
+              >
+                {deg}°
+              </button>
+            ))}
+          </div>
           <label className="field">Opacità · {Math.round(opacity * 100)}%</label>
           <input
             type="range"

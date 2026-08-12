@@ -211,13 +211,19 @@ export default function ProjectPage({ params }: { params: Promise<{ id: string }
       if (bp && bpImg) {
         c.save();
         c.globalAlpha = bp.opacity;
+        const rot = bp.rotation ?? 0;
+        // ruota attorno al centro della carta; a 90/270 il riquadro di destinazione si scambia
+        c.translate(dims.w / 2, dims.h / 2);
+        c.rotate((rot * Math.PI) / 180);
+        const tw = rot % 180 === 0 ? dims.w : dims.h;
+        const th = rot % 180 === 0 ? dims.h : dims.w;
         if (bp.fit === 'original') {
           // dimensioni native del file, centrato: nessuna deformazione
-          const iw = bpImg.naturalWidth || dims.w;
-          const ih = bpImg.naturalHeight || dims.h;
-          c.drawImage(bpImg, (dims.w - iw) / 2, (dims.h - ih) / 2, iw, ih);
+          const iw = bpImg.naturalWidth || tw;
+          const ih = bpImg.naturalHeight || th;
+          c.drawImage(bpImg, -iw / 2, -ih / 2, iw, ih);
         } else {
-          c.drawImage(bpImg, 0, 0, dims.w, dims.h);
+          c.drawImage(bpImg, -tw / 2, -th / 2, tw, th);
         }
         c.restore();
       }
