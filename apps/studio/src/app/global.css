@@ -297,6 +297,26 @@ html, body {
 
   /* ---------- pannello livelli (sistema a layer SVG) ---------- */
   .layers { display: grid; gap: 4px; }
+  .layer-thumb {
+    width: 30px;
+    height: 30px;
+    flex-shrink: 0;
+    object-fit: contain;
+    border: 1px solid var(--bordo);
+    border-radius: 6px;
+    background:
+      repeating-conic-gradient(rgba(240, 228, 200, 0.1) 0% 25%, transparent 0% 50%) 0 0 / 12px 12px,
+      #2b241e;
+  }
+  .layer-thumb-glyph {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Fraunces', Georgia, serif;
+    font-size: 0.95rem;
+    color: var(--oro);
+  }
+  .layer-thumb-lg { width: 44px; height: 44px; }
   .layer-row {
     display: flex;
     align-items: center;

@@ -18,6 +18,29 @@ interface Props {
   onRefreshAssets?: () => void;
   /** nome del file per l'export del template (es. "sapere.template.json") */
   downloadFilename: string;
+  /** trasforma il src di un layer/asset nell'URL dell'immagine (per le anteprime) */
+  assetUrl?: (src: string) => string;
+}
+
+/** Miniatura di un layer: immagine vera per i layer immagine, glifo per testi e blocchi. */
+function LayerThumb({ layer, assetUrl }: { layer: Layer; assetUrl?: (src: string) => string }) {
+  if (layer.type === 'image' && assetUrl) {
+    return (
+      // eslint-disable-next-line @next/next/no-img-element
+      <img
+        className="layer-thumb"
+        src={assetUrl(layer.src)}
+        alt=""
+        loading="lazy"
+        onError={(e) => { e.currentTarget.style.opacity = '0.2'; }}
+      />
+    );
+  }
+  return (
+    <span className="layer-thumb layer-thumb-glyph">
+      {layer.type === 'text' ? 'T' : '¶'}
+    </span>
+  );
 }
 
 /**
@@ -25,7 +48,8 @@ interface Props {
  * che monta le carte dal sistema a layer (template nella cartella del gioco).
  */
 export function LayerPanel({
-  template, selectedId, onSelect, assetFiles, onChange, onAssetReplaced, onRefreshAssets, downloadFilename,
+  template, selectedId, onSelect, assetFiles, onChange, onAssetReplaced, onRefreshAssets,
+  downloadFilename, assetUrl,
 }: Props) {
   const [selectedSvg, setSelectedSvg] = useState<string>('');
 
@@ -137,16 +161,28 @@ export function LayerPanel({
 
         {assetFiles.length > 0 ? (
           <>
-            <select
-              value={activeSvg}
-              onChange={(e) => setSelectedSvg(e.target.value)}
-            >
-              {assetFiles.map((f) => (
-                <option key={f} value={f}>
-                  {f.replace(/^assets\//, '')}
-                </option>
-              ))}
-            </select>
+            <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
+              {assetUrl && activeSvg && (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img
+                  className="layer-thumb layer-thumb-lg"
+                  src={assetUrl(activeSvg)}
+                  alt=""
+                  onError={(e) => { e.currentTarget.style.opacity = '0.2'; }}
+                />
+              )}
+              <select
+                value={activeSvg}
+                onChange={(e) => setSelectedSvg(e.target.value)}
+                style={{ flex: 1 }}
+              >
+                {assetFiles.map((f) => (
+                  <option key={f} value={f}>
+                    {f.replace(/^assets\//, '')}
+                  </option>
+                ))}
+              </select>
+            </div>
             <div className="asset-picker-actions">
               <button
                 type="button"
@@ -185,6 +221,7 @@ export function LayerPanel({
               checked={l.visible}
               onChange={(e) => { l.visible = e.target.checked; onChange(); }}
             />
+            <LayerThumb layer={l} assetUrl={assetUrl} />
             <button className="layer-name" onClick={() => onSelect(selectedId === l.id ? null : l.id)}>
               {l.name}{l.locked ? ' 🔒' : ''}
             </button>

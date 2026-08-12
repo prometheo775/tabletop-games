@@ -9,7 +9,7 @@ import {
   parseArchiveJson, parseEventJson, parseQuizJson,
   defPlate, defBox, defQuizBox, defLandPlate, defLandWidePlate, defLandBox,
   renderTemplate, templateImageSrcs, sortedLayers, parseTemplate, DEFAULT_TEMPLATES,
-  hasBackLayers,
+  hasBackLayers, resolvePattern,
   type AssetMap, type Project, type Era, type CardTemplate, type TemplateCard,
   type BlueprintSetting,
 } from '@tabletops-game/card-engine';
@@ -486,6 +486,7 @@ export default function ProjectPage({ params }: { params: Promise<{ id: string }
               onAssetReplaced={ensureTplImages}
               onRefreshAssets={refreshAssets}
               downloadFilename={`${TPL_META[tab].file}.template.json`}
+              assetUrl={(src) => docsAssetUrl(slug, resolvePattern(src, curCard ?? { era: 1 }))}
             />
           )}
 
