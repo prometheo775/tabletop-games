@@ -75,6 +75,13 @@ function drawEmptyDeck(c: Ctx, W: number, H: number) {
 export interface TemplateRenderOpts extends RenderOpts {
   /** layer selezionato nell'editor: viene evidenziato con bordo e maniglia */
   selectedId?: string | null;
+  /** lato da disegnare: 'front' (default) o 'back' (il retro del mazzo) */
+  side?: 'front' | 'back';
+}
+
+/** true se il template ha almeno un layer sul retro. */
+export function hasBackLayers(tpl: CardTemplate): boolean {
+  return tpl.layers.some((l) => l.side === 'back');
 }
 
 export function renderTemplate(
@@ -83,12 +90,10 @@ export function renderTemplate(
   card: TemplateCard | undefined, opts: TemplateRenderOpts = {},
 ) {
   c.clearRect(0, 0, W, H);
-
   const side = opts.side ?? 'front';
 
   for (const l of sortedLayers(tpl)) {
-    const lSide = l.side ?? 'front';
-    if (lSide !== side) continue;
+    if ((l.side ?? 'front') !== side) continue;
     if (!l.visible) continue;
     if (l.type === 'image') {
       const img = images[resolvePattern(l.src, card)];
@@ -119,12 +124,21 @@ export function renderTemplate(
   if (opts.editing && opts.selectedId) {
     const sel = tpl.layers.find((l) => l.id === opts.selectedId);
     if (sel && sel.visible && (sel.side ?? 'front') === side) {
+      const { x, y, w, h } = sel.rect;
       c.strokeStyle = 'rgba(201,168,107,.9)';
       c.lineWidth = 2.5;
       c.setLineDash([9, 7]);
-      c.strokeRect(sel.rect.x, sel.rect.y, sel.rect.w, sel.rect.h);
+      c.strokeRect(x, y, w, h);
       c.setLineDash([]);
-      if (!sel.locked) drawGrip(c, sel.rect.x + sel.rect.w, sel.rect.y + sel.rect.h);
+      // maniglie di resize ai 4 angoli (anche per i layer bloccati: azione deliberata)
+      for (const [hx, hy] of [[x, y], [x + w, y], [x, y + h], [x + w, y + h]] as const) {
+        c.fillStyle = '#221a12';
+        c.fillRect(hx - 9, hy - 9, 18, 18);
+        c.strokeStyle = 'rgba(201,168,107,.95)';
+        c.lineWidth = 2.5;
+        c.strokeRect(hx - 9, hy - 9, 18, 18);
+      }
+      if (!sel.locked) drawGrip(c, x + w, y + h);
     }
   }
   drawOverlays(c, W, H, opts);

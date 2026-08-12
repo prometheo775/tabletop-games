@@ -34,6 +34,8 @@ docs/<slug>/
   references/          # fonti.md, revisioni di design, materiali storici
   assets/              # i componenti grafici del gioco (SVG preferiti, PNG ammessi):
                        #   cornice, targhetta, box, sfondi, illustrazioni — usati dai template
+    blueprints/        # guide di stampa della tipografia (taglio, area sicura): l'editor
+                       #   le sovrappone alle carte con opacità regolabile, mai esportate
 ```
 
 Gli asset e i template sono serviti allo studio dalla route `/api/docs-asset` in sola

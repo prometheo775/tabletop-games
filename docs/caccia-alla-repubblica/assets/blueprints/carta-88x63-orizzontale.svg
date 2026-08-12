@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1122 822">
+  <!-- bordo abbondanza (filo del file) -->
+  <rect x="1.5" y="1.5" width="1119" height="819" fill="none" stroke="#E8318A" stroke-width="3" stroke-dasharray="4 6"/>
+  <!-- linea di taglio -->
+  <rect x="36" y="36" width="1050" height="750" rx="24"
+    fill="none" stroke="#00A6C8" stroke-width="3"/>
+  <!-- area sicura (testi e elementi importanti dentro questa linea) -->
+  <rect x="71" y="71" width="980" height="680" rx="14"
+    fill="none" stroke="#E8318A" stroke-width="2.5" stroke-dasharray="12 8"/>
+  <!-- croci di centro -->
+  <path d="M 531 36 H 591 M 561 6 V 66" stroke="#00A6C8" stroke-width="2"/> <path d="M 531 786 H 591 M 561 756 V 816" stroke="#00A6C8" stroke-width="2"/> <path d="M 6 411 H 66 M 36 381 V 441" stroke="#00A6C8" stroke-width="2"/> <path d="M 1056 411 H 1116 M 1086 381 V 441" stroke="#00A6C8" stroke-width="2"/>
+  <path d="M 521 411 H 601 M 561 371 V 451" stroke="#00A6C8" stroke-width="1.5" opacity="0.7"/>
+  <!-- etichette -->
+  <g font-family="Arial, sans-serif" fill="#00A6C8">
+    <text x="561" y="62" font-size="20" text-anchor="middle">TAGLIO · 88,9 × 63,5 mm al vivo</text>
+    <text x="561" y="774" font-size="18" text-anchor="middle" fill="#E8318A">AREA SICURA · tieni testi e loghi dentro la linea magenta</text>
+  </g>
+  <g font-family="Arial, sans-serif" font-size="16" fill="#E8318A">
+    <text x="44" y="22" >abbondanza 3 mm</text>
+  </g>
+</svg>

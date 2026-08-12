@@ -9,12 +9,15 @@ import {
   parseArchiveJson, parseEventJson, parseQuizJson,
   defPlate, defBox, defQuizBox, defLandPlate, defLandWidePlate, defLandBox,
   renderTemplate, templateImageSrcs, sortedLayers, parseTemplate, DEFAULT_TEMPLATES,
+  hasBackLayers,
   type AssetMap, type Project, type Era, type CardTemplate, type TemplateCard,
+  type BlueprintSetting,
 } from '@tabletops-game/card-engine';
 import { CardCanvas, type CanvasGeom } from '../../../components/CardCanvas';
 import { LayerCanvas } from '../../../components/LayerCanvas';
 import { LayerPanel } from '../../../components/editor/LayerPanel';
 import { DeckNav } from '../../../components/editor/DeckNav';
+import { BlueprintPanel } from '../../../components/editor/BlueprintPanel';
 import { ImportModal, PromptBox, ViewJsonModal } from '../../../components/JsonModals';
 import { loadAssets, exportPng } from '../../../lib/canvas-io';
 import { loadProject, saveProject } from '../../../lib/store';
@@ -55,6 +58,7 @@ export default function ProjectPage({ params }: { params: Promise<{ id: string }
   const [status, setStatus] = useState<{ msg: string; err?: boolean } | null>(null);
   const saveTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const [selLayer, setSelLayer] = useState<string | null>(null);
+  const [viewSide, setViewSide] = useState<'front' | 'back'>('front');
   const [assetFiles, setAssetFiles] = useState<string[]>([]);
   const tplImages = useRef<Record<string, HTMLImageElement>>({});
   const [imgVer, setImgVer] = useState(0);
@@ -113,31 +117,58 @@ export default function ProjectPage({ params }: { params: Promise<{ id: string }
     const tpl = p?.[curTplField];
     if (!p || !tpl) return;
     const card = curCard ?? { era: 1 as Era };
-    for (const src of templateImageSrcs(tpl, card)) {
+    const srcs = templateImageSrcs(tpl, card);
+    const bp = p.blueprints?.[tab];
+    if (bp?.src) srcs.push(bp.src);
+    for (const src of srcs) {
       if (tplImages.current[src]) continue;
       const img = new Image();
       img.onload = () => { tplImages.current[src] = img; setImgVer((v) => v + 1); };
       img.src = docsAssetUrl(slug, src);
     }
-  }, [p, curTplField, curCard, slug]);
+  }, [p, curTplField, curCard, slug, tab]);
 
   useEffect(() => { ensureTplImages(); }, [ensureTplImages, curTpl]);
 
-  // cambiando tab si azzera la selezione del layer
-  useEffect(() => { setSelLayer(null); }, [tab]);
+  // cambiando tab si azzera la selezione del layer e si torna al fronte
+  useEffect(() => { setSelLayer(null); setViewSide('front'); }, [tab]);
 
-  // elenco degli asset disponibili nella cartella del gioco (per sostituire i layer o aggiungerne di nuovi)
+  // se selezioni un layer dell'altro lato (dal pannello), la vista lo segue
+  useEffect(() => {
+    if (!selLayer || !curTpl) return;
+    const l = curTpl.layers.find((x) => x.id === selLayer);
+    if (l && (l.side ?? 'front') !== viewSide) setViewSide((l.side ?? 'front') as 'front' | 'back');
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selLayer, tick]);
+
+  // elenco degli asset disponibili nella cartella del gioco (per sostituire/aggiungere layer)
   const refreshAssets = useCallback(() => {
-    if (!slug) return;
+    if (!p) return;
     fetch(`/api/docs-asset?slug=${encodeURIComponent(slug)}&list=assets`)
       .then((r) => (r.ok ? r.json() : { files: [] }))
       .then((j) => setAssetFiles(Array.isArray(j.files) ? j.files : []))
       .catch(() => setAssetFiles([]));
-  }, [slug]);
+  }, [p, slug]);
 
-  useEffect(() => {
-    if (p) refreshAssets();
-  }, [p, refreshAssets]);
+  useEffect(() => { refreshAssets(); }, [refreshAssets]);
+
+  // blueprint di stampa del mazzo corrente (guida della tipografia in sovraimpressione)
+  const bpFiles = useMemo(() => assetFiles.filter((f) => f.startsWith('assets/blueprints/')), [assetFiles]);
+  const layerAssetFiles = useMemo(() => assetFiles.filter((f) => !f.startsWith('assets/blueprints/')), [assetFiles]);
+  const curBp = p?.blueprints?.[tab] ?? null;
+  const setBp = (next: BlueprintSetting | null) => {
+    if (!p) return;
+    const all = { ...(p.blueprints ?? {}) };
+    if (next) all[tab] = next;
+    else delete all[tab];
+    p.blueprints = all;
+    if (next && !tplImages.current[next.src]) {
+      const img = new Image();
+      img.onload = () => { tplImages.current[next.src] = img; setImgVer((v) => v + 1); };
+      img.src = docsAssetUrl(slug, next.src);
+    }
+    touch();
+  };
 
   const geom: CanvasGeom | null = useMemo(() => {
     if (!p) return null;
@@ -153,16 +184,17 @@ export default function ProjectPage({ params }: { params: Promise<{ id: string }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [p, tab, charIdx, p?.updatedAt]);
 
-  const paintFront = useCallback(
+  const paint = useCallback(
     (c: CanvasRenderingContext2D, o: { guide: boolean; snapped: boolean }) => {
       if (!p || !assets) return;
-      const opts = { editing: true, cutLine: true, side: 'front' as const, ...o };
+      const opts = { editing: true, cutLine: true, ...o };
       const tpl = p[TPL_META[tab].field];
       if (tpl) {
         const card = tab === 'characters' ? p.characters[charIdx]
           : tab === 'quiz' ? p.quiz[quizIdx]
             : tab === 'events' ? p.events[eventIdx] : p.archive[arcIdx];
-        renderTemplate(c, dims.w, dims.h, tpl, tplImages.current, card, { ...opts, selectedId: selLayer });
+        renderTemplate(c, dims.w, dims.h, tpl, tplImages.current, card,
+          { ...opts, selectedId: selLayer, side: viewSide });
       } else if (tab === 'characters') {
         const ch = p.characters[charIdx];
         if (ch) renderCharacter(c, dims.w, dims.h, assets, p.stitches, ch, opts);
@@ -173,30 +205,19 @@ export default function ProjectPage({ params }: { params: Promise<{ id: string }
       } else {
         renderArchive(c, dims.w, dims.h, assets, p.stitches, p.archiveLayout, p.archive[arcIdx], opts);
       }
+      // blueprint di stampa in sovraimpressione (solo editor, mai nell'export)
+      const bp = p.blueprints?.[tab];
+      const bpImg = bp?.visible ? tplImages.current[bp.src] : null;
+      if (bp && bpImg) {
+        c.save();
+        c.globalAlpha = bp.opacity;
+        c.drawImage(bpImg, 0, 0, dims.w, dims.h);
+        c.restore();
+      }
     },
     // tick: ogni modifica (toggle layer, z, testi) deve ridisegnare subito il canvas
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [p, assets, tab, charIdx, quizIdx, eventIdx, arcIdx, dims.w, dims.h, selLayer, imgVer, curTpl, tick],
-  );
-
-  const paintBack = useCallback(
-    (c: CanvasRenderingContext2D, o: { guide: boolean; snapped: boolean }) => {
-      if (!p || !assets) return;
-      const opts = { editing: true, cutLine: true, side: 'back' as const, ...o };
-      const tpl = p[TPL_META[tab].field];
-      if (tpl) {
-        const card = tab === 'characters' ? p.characters[charIdx]
-          : tab === 'quiz' ? p.quiz[quizIdx]
-            : tab === 'events' ? p.events[eventIdx] : p.archive[arcIdx];
-        renderTemplate(c, dims.w, dims.h, tpl, tplImages.current, card, { ...opts, selectedId: selLayer });
-      } else {
-        // legacy back is empty white
-        c.clearRect(0, 0, dims.w, dims.h);
-        c.fillStyle = '#FFFFFF';
-        c.fillRect(0, 0, dims.w, dims.h);
-      }
-    },
-    [p, assets, tab, charIdx, quizIdx, eventIdx, arcIdx, dims.w, dims.h, selLayer, imgVer, curTpl, tick],
+    [p, assets, tab, charIdx, quizIdx, eventIdx, arcIdx, dims.w, dims.h, selLayer, imgVer, curTpl, tick, viewSide],
   );
 
   if (project === 'missing') {
@@ -227,17 +248,16 @@ export default function ProjectPage({ params }: { params: Promise<{ id: string }
     archive: [arcIdx, setArcIdx] as const,
   };
 
-  const exportName = (i: number, side: 'front' | 'back'): string => {
-    const suffix = side === 'back' ? '_retro' : '_fronte';
-    if (tab === 'characters') return `carta_${p.characters[i].id}${suffix}.png`;
-    if (tab === 'quiz') return `carta_sapere_era${p.quiz[i].era}_${String(i + 1).padStart(2, '0')}${suffix}.png`;
-    if (tab === 'events') return `carta_imprevisto_${p.events[i].tipo}_${String(i + 1).padStart(2, '0')}${suffix}.png`;
-    return `carta_archivio_${String(i + 1).padStart(2, '0')}${suffix}.png`;
+  const exportName = (i: number): string => {
+    if (tab === 'characters') return `carta_${p.characters[i].id}.png`;
+    if (tab === 'quiz') return `carta_sapere_era${p.quiz[i].era}_${String(i + 1).padStart(2, '0')}.png`;
+    if (tab === 'events') return `carta_imprevisto_${p.events[i].tipo}_${String(i + 1).padStart(2, '0')}.png`;
+    return `carta_archivio_${String(i + 1).padStart(2, '0')}.png`;
   };
 
-  const drawCardPlain = (c: CanvasRenderingContext2D, i: number, side: 'front' | 'back') => {
+  const drawCardPlain = (c: CanvasRenderingContext2D, i: number) => {
     if (!assets) return;
-    const plain = { editing: false, cutLine: false, guide: false, snapped: false, side };
+    const plain = { editing: false, cutLine: false, guide: false, snapped: false };
     const tpl = p[TPL_META[tab].field];
     const card: TemplateCard | undefined = tab === 'characters' ? p.characters[i]
       : tab === 'quiz' ? p.quiz[i]
@@ -245,17 +265,13 @@ export default function ProjectPage({ params }: { params: Promise<{ id: string }
     if (tpl) {
       renderTemplate(c, dims.w, dims.h, tpl, tplImages.current, card, plain);
     } else if (tab === 'characters') {
-      if (side === 'front') renderCharacter(c, dims.w, dims.h, assets, p.stitches, p.characters[i], plain);
-      else { c.clearRect(0, 0, dims.w, dims.h); c.fillStyle = '#FFFFFF'; c.fillRect(0, 0, dims.w, dims.h); }
+      renderCharacter(c, dims.w, dims.h, assets, p.stitches, p.characters[i], plain);
     } else if (tab === 'quiz') {
-      if (side === 'front') renderQuiz(c, dims.w, dims.h, assets, p.stitches, p.quizLayout, p.quiz[i], plain);
-      else { c.clearRect(0, 0, dims.w, dims.h); c.fillStyle = '#FFFFFF'; c.fillRect(0, 0, dims.w, dims.h); }
+      renderQuiz(c, dims.w, dims.h, assets, p.stitches, p.quizLayout, p.quiz[i], plain);
     } else if (tab === 'events') {
-      if (side === 'front') renderEvent(c, dims.w, dims.h, assets, p.stitches, p.eventLayout, p.events[i], plain);
-      else { c.clearRect(0, 0, dims.w, dims.h); c.fillStyle = '#FFFFFF'; c.fillRect(0, 0, dims.w, dims.h); }
+      renderEvent(c, dims.w, dims.h, assets, p.stitches, p.eventLayout, p.events[i], plain);
     } else {
-      if (side === 'front') renderArchive(c, dims.w, dims.h, assets, p.stitches, p.archiveLayout, p.archive[i], plain);
-      else { c.clearRect(0, 0, dims.w, dims.h); c.fillStyle = '#FFFFFF'; c.fillRect(0, 0, dims.w, dims.h); }
+      renderArchive(c, dims.w, dims.h, assets, p.stitches, p.archiveLayout, p.archive[i], plain);
     }
   };
 
@@ -282,8 +298,17 @@ export default function ProjectPage({ params }: { params: Promise<{ id: string }
     const i = tab === 'characters' ? charIdx : idxState[tab][0];
     if (!deckCards()[i]) return;
     await preloadTplImages();
-    await exportPng(exportName(i, 'front'), dims.w, dims.h, (c) => drawCardPlain(c, i, 'front'));
-    await exportPng(exportName(i, 'back'), dims.w, dims.h, (c) => drawCardPlain(c, i, 'back'));
+    await exportPng(exportName(i), dims.w, dims.h, (c) => drawCardPlain(c, i));
+  };
+
+  /** Il retro è unico per tutto il mazzo: un solo PNG. */
+  const exportBack = async () => {
+    const tpl = p[TPL_META[tab].field];
+    if (!tpl) return;
+    await preloadTplImages();
+    const plain = { editing: false, cutLine: false, guide: false, snapped: false };
+    await exportPng(`retro_${TPL_META[tab].file}.png`, dims.w, dims.h, (c) =>
+      renderTemplate(c, dims.w, dims.h, tpl, tplImages.current, curCard, { ...plain, side: 'back' }));
   };
 
   const exportAll = async () => {
@@ -292,9 +317,7 @@ export default function ProjectPage({ params }: { params: Promise<{ id: string }
     await preloadTplImages();
     const n = deckCards().length;
     for (let i = 0; i < n; i++) {
-      await exportPng(exportName(i, 'front'), dims.w, dims.h, (c) => drawCardPlain(c, i, 'front'));
-      await pause();
-      await exportPng(exportName(i, 'back'), dims.w, dims.h, (c) => drawCardPlain(c, i, 'back'));
+      await exportPng(exportName(i), dims.w, dims.h, (c) => drawCardPlain(c, i));
       await pause();
     }
   };
@@ -319,30 +342,6 @@ export default function ProjectPage({ params }: { params: Promise<{ id: string }
     }
     touch();
     return null;
-  };
-
-  const syncFromDocs = async () => {
-    if (!p || tab === 'characters') return;
-    const fileMap: Record<string, string> = {
-      quiz: 'cards/sapere.json',
-      events: 'cards/imprevisti.json',
-      archive: 'cards/archivio.json',
-    };
-    const filePath = fileMap[tab];
-    if (!filePath) return;
-    try {
-      const res = await fetch(docsAssetUrl(slug, filePath));
-      if (!res.ok) throw new Error(`File ${filePath} non trovato in docs/`);
-      const text = await res.text();
-      const err = doImport(text);
-      if (!err) {
-        setStatus({ msg: `✔ Sincronizzato con successo da ${filePath}` });
-      } else {
-        setStatus({ msg: `✖ Errore sincronizzazione: ${err}`, err: true });
-      }
-    } catch (e: any) {
-      setStatus({ msg: `✖ Impossibile sincronizzare: ${e.message}`, err: true });
-    }
   };
 
   const deckMeta = {
@@ -452,9 +451,6 @@ export default function ProjectPage({ params }: { params: Promise<{ id: string }
               <button className="btn btn-primary btn-block" onClick={() => setImportOpen(true)}>
                 📥 Importa JSON (incolla)
               </button>
-              <button className="btn btn-secondary btn-block" onClick={syncFromDocs}>
-                🔄 Sincronizza da file di progetto (docs/)
-              </button>
               <button className="btn btn-ghost btn-block" onClick={() => setJsonOpen(true)}>
                 📄 Mostra / copia JSON del mazzo
               </button>
@@ -478,13 +474,15 @@ export default function ProjectPage({ params }: { params: Promise<{ id: string }
               template={curTpl}
               selectedId={selLayer}
               onSelect={setSelLayer}
-              assetFiles={assetFiles}
+              assetFiles={layerAssetFiles}
               onChange={touch}
               onAssetReplaced={ensureTplImages}
               onRefreshAssets={refreshAssets}
               downloadFilename={`${TPL_META[tab].file}.template.json`}
             />
           )}
+
+          <BlueprintPanel files={bpFiles} setting={curBp} onChange={setBp} />
 
           <h2>Esporta</h2>
           <button className="btn btn-ghost btn-block" onClick={resetLayout}>
@@ -496,6 +494,11 @@ export default function ProjectPage({ params }: { params: Promise<{ id: string }
           <button className="btn btn-secondary btn-block" onClick={exportAll}>
             ⬇ Scarica tutto il mazzo
           </button>
+          {curTpl && hasBackLayers(curTpl) && (
+            <button className="btn btn-secondary btn-block" onClick={exportBack}>
+              ⬇ Scarica il retro del mazzo
+            </button>
+          )}
           <p className="hint">
             Trascina targhetta e box sul canvas; maniglia in basso a destra per
             ridimensionare (Shift = proporzioni), frecce per spostamenti fini, la calamita
@@ -504,38 +507,36 @@ export default function ProjectPage({ params }: { params: Promise<{ id: string }
         </aside>
 
         <section className="stage">
+          {curTpl && (
+            <div className="navrow">
+              <button
+                className={`btn ${viewSide === 'front' ? 'btn-primary' : 'btn-secondary'}`}
+                style={{ width: 'auto', padding: '7px 16px' }}
+                onClick={() => { setViewSide('front'); setSelLayer(null); }}
+              >
+                🌅 Fronte
+              </button>
+              <button
+                className={`btn ${viewSide === 'back' ? 'btn-primary' : 'btn-secondary'}`}
+                style={{ width: 'auto', padding: '7px 16px' }}
+                onClick={() => { setViewSide('back'); setSelLayer(null); }}
+              >
+                🌌 Retro
+              </button>
+            </div>
+          )}
           {curTpl ? (
-            <div className={isLand ? 'canvases-vertical' : 'canvases-horizontal'}>
-              <div className="canvas-wrapper">
-                <h3>🌅 Fronte</h3>
-                <LayerCanvas
-                  w={dims.w}
-                  h={dims.h}
-                  layers={sortedLayers(curTpl).filter((l) => (l.side ?? 'front') === 'front')}
-                  selectedId={selLayer}
-                  onSelect={setSelLayer}
-                  paint={paintFront}
-                  onChange={touch}
-                />
-              </div>
-              <div className="canvas-wrapper">
-                <h3>🌌 Retro</h3>
-                <LayerCanvas
-                  w={dims.w}
-                  h={dims.h}
-                  layers={sortedLayers(curTpl).filter((l) => l.side === 'back')}
-                  selectedId={selLayer}
-                  onSelect={setSelLayer}
-                  paint={paintBack}
-                  onChange={touch}
-                />
-              </div>
-            </div>
+            <LayerCanvas
+              w={dims.w}
+              h={dims.h}
+              layers={sortedLayers(curTpl).filter((l) => (l.side ?? 'front') === viewSide)}
+              selectedId={selLayer}
+              onSelect={setSelLayer}
+              paint={paint}
+              onChange={touch}
+            />
           ) : (
-            <div className="canvas-wrapper">
-              <h3>🌅 Fronte</h3>
-              <CardCanvas w={dims.w} h={dims.h} geom={geom} paint={paintFront} onGeomChange={touch} />
-            </div>
+            <CardCanvas w={dims.w} h={dims.h} geom={geom} paint={paint} onGeomChange={touch} />
           )}
           {tab !== 'characters' && (
             <DeckNav

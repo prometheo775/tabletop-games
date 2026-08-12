@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Livello_1" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 195.59 266.46">
+  <!-- Generator: Adobe Illustrator 30.0.0, SVG Export Plug-In . SVG Version: 2.1.1 Build 123)  -->
+  <defs>
+    <style>
+      .st0 {
+        stroke-dasharray: 12.81 12.81;
+      }
+
+      .st0, .st1, .st2 {
+        stroke: #1d1d1b;
+      }
+
+      .st0, .st1, .st2, .st3, .st4 {
+        stroke-miterlimit: 10;
+      }
+
+      .st0, .st1, .st2, .st4 {
+        fill: none;
+      }
+
+      .st1 {
+        stroke-dasharray: 12.5 12.5;
+      }
+
+      .st3 {
+        fill: #ffed00;
+      }
+
+      .st3, .st4 {
+        stroke: #e30613;
+      }
+    </style>
+  </defs>
+  <rect class="st3" width="195.59" height="266.46"/>
+  <g>
+    <polyline class="st2" points="187.09 251.95 187.09 257.95 181.09 257.95"/>
+    <line class="st0" x1="168.27" y1="257.95" x2="20.91" y2="257.95"/>
+    <polyline class="st2" points="14.5 257.95 8.5 257.95 8.5 251.95"/>
+    <line class="st1" x1="8.5" y1="239.46" x2="8.5" y2="20.75"/>
+    <polyline class="st2" points="8.5 14.5 8.5 8.5 14.5 8.5"/>
+    <line class="st0" x1="27.32" y1="8.5" x2="174.68" y2="8.5"/>
+    <polyline class="st2" points="181.09 8.5 187.09 8.5 187.09 14.5"/>
+    <line class="st1" x1="187.09" y1="27" x2="187.09" y2="245.7"/>
+  </g>
+  <rect class="st4" x="19.84" y="19.84" width="155.91" height="226.77"/>
+</svg>

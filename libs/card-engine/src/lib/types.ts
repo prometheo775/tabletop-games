@@ -86,6 +86,17 @@ export interface Project {
   charTemplate?: CardTemplate;
   eventTemplate?: CardTemplate;
   archiveTemplate?: CardTemplate;
+  /** blueprint di stampa della tipografia, per mazzo: guida in sovraimpressione nell'editor */
+  blueprints?: Partial<Record<DeckKind, BlueprintSetting>>;
+}
+
+/** Guida di stampa (blueprint) mostrata sopra la carta nell'editor, mai esportata. */
+export interface BlueprintSetting {
+  /** percorso relativo alla cartella del gioco, es. "assets/blueprints/carta-63x88.svg" */
+  src: string;
+  /** 0–1 */
+  opacity: number;
+  visible: boolean;
 }
 
 /* ---------- sistema a layer (carte componibili da SVG) ---------- */
@@ -109,6 +120,7 @@ interface LayerBase {
   visible: boolean;
   /** un layer bloccato non si sposta/ridimensiona dal canvas (es. sfondi a tutta carta) */
   locked?: boolean;
+  /** lato della carta: 'front' (default) o 'back' — il retro del mazzo */
   side?: 'front' | 'back';
 }
 
@@ -156,7 +168,4 @@ export interface RenderOpts {
   cutLine?: boolean;
   guide?: boolean;
   snapped?: boolean;
-  snappedH?: boolean;
-  snappedV?: boolean;
-  side?: 'front' | 'back';
 }
