@@ -211,7 +211,14 @@ export default function ProjectPage({ params }: { params: Promise<{ id: string }
       if (bp && bpImg) {
         c.save();
         c.globalAlpha = bp.opacity;
-        c.drawImage(bpImg, 0, 0, dims.w, dims.h);
+        if (bp.fit === 'original') {
+          // dimensioni native del file, centrato: nessuna deformazione
+          const iw = bpImg.naturalWidth || dims.w;
+          const ih = bpImg.naturalHeight || dims.h;
+          c.drawImage(bpImg, (dims.w - iw) / 2, (dims.h - ih) / 2, iw, ih);
+        } else {
+          c.drawImage(bpImg, 0, 0, dims.w, dims.h);
+        }
         c.restore();
       }
     },

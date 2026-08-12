@@ -97,6 +97,12 @@ export interface BlueprintSetting {
   /** 0–1 */
   opacity: number;
   visible: boolean;
+  /**
+   * come disporre la guida sul canvas:
+   * - 'stretch' (default): adattata alla carta — comodo ma può deformare il file
+   * - 'original': dimensioni native del file, centrata, senza alcuna deformazione
+   */
+  fit?: 'stretch' | 'original';
 }
 
 /* ---------- sistema a layer (carte componibili da SVG) ---------- */

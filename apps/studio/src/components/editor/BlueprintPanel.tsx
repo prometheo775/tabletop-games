@@ -29,7 +29,7 @@ export function BlueprintPanel({ files, setting, onChange }: Props) {
         value={setting?.visible ? setting.src : ''}
         onChange={(e) => {
           const src = e.target.value;
-          onChange(src ? { src, opacity, visible: true } : null);
+          onChange(src ? { src, opacity, visible: true, fit: setting?.fit ?? 'stretch' } : null);
         }}
       >
         <option value="">— nessuno —</option>
@@ -39,6 +39,14 @@ export function BlueprintPanel({ files, setting, onChange }: Props) {
       </select>
       {setting?.visible && (
         <>
+          <label className="field">Dimensioni</label>
+          <select
+            value={setting.fit ?? 'stretch'}
+            onChange={(e) => onChange({ ...setting, fit: e.target.value as 'stretch' | 'original' })}
+          >
+            <option value="stretch">Adatta alla carta (stira il file)</option>
+            <option value="original">Originali del file (centrato, nessuna deformazione)</option>
+          </select>
           <label className="field">Opacità · {Math.round(opacity * 100)}%</label>
           <input
             type="range"
