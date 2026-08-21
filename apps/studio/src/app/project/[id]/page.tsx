@@ -153,10 +153,10 @@ export default function ProjectPage({ params }: { params: Promise<{ id: string }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [p, tab, charIdx, p?.updatedAt]);
 
-  const paint = useCallback(
+  const paintFront = useCallback(
     (c: CanvasRenderingContext2D, o: { guide: boolean; snapped: boolean }) => {
       if (!p || !assets) return;
-      const opts = { editing: true, cutLine: true, ...o };
+      const opts = { editing: true, cutLine: true, side: 'front' as const, ...o };
       const tpl = p[TPL_META[tab].field];
       if (tpl) {
         const card = tab === 'characters' ? p.characters[charIdx]
@@ -176,6 +176,26 @@ export default function ProjectPage({ params }: { params: Promise<{ id: string }
     },
     // tick: ogni modifica (toggle layer, z, testi) deve ridisegnare subito il canvas
     // eslint-disable-next-line react-hooks/exhaustive-deps
+    [p, assets, tab, charIdx, quizIdx, eventIdx, arcIdx, dims.w, dims.h, selLayer, imgVer, curTpl, tick],
+  );
+
+  const paintBack = useCallback(
+    (c: CanvasRenderingContext2D, o: { guide: boolean; snapped: boolean }) => {
+      if (!p || !assets) return;
+      const opts = { editing: true, cutLine: true, side: 'back' as const, ...o };
+      const tpl = p[TPL_META[tab].field];
+      if (tpl) {
+        const card = tab === 'characters' ? p.characters[charIdx]
+          : tab === 'quiz' ? p.quiz[quizIdx]
+            : tab === 'events' ? p.events[eventIdx] : p.archive[arcIdx];
+        renderTemplate(c, dims.w, dims.h, tpl, tplImages.current, card, { ...opts, selectedId: selLayer });
+      } else {
+        // legacy back is empty white
+        c.clearRect(0, 0, dims.w, dims.h);
+        c.fillStyle = '#FFFFFF';
+        c.fillRect(0, 0, dims.w, dims.h);
+      }
+    },
     [p, assets, tab, charIdx, quizIdx, eventIdx, arcIdx, dims.w, dims.h, selLayer, imgVer, curTpl, tick],
   );
 
@@ -207,16 +227,17 @@ export default function ProjectPage({ params }: { params: Promise<{ id: string }
     archive: [arcIdx, setArcIdx] as const,
   };
 
-  const exportName = (i: number): string => {
-    if (tab === 'characters') return `carta_${p.characters[i].id}.png`;
-    if (tab === 'quiz') return `carta_sapere_era${p.quiz[i].era}_${String(i + 1).padStart(2, '0')}.png`;
-    if (tab === 'events') return `carta_imprevisto_${p.events[i].tipo}_${String(i + 1).padStart(2, '0')}.png`;
-    return `carta_archivio_${String(i + 1).padStart(2, '0')}.png`;
+  const exportName = (i: number, side: 'front' | 'back'): string => {
+    const suffix = side === 'back' ? '_retro' : '_fronte';
+    if (tab === 'characters') return `carta_${p.characters[i].id}${suffix}.png`;
+    if (tab === 'quiz') return `carta_sapere_era${p.quiz[i].era}_${String(i + 1).padStart(2, '0')}${suffix}.png`;
+    if (tab === 'events') return `carta_imprevisto_${p.events[i].tipo}_${String(i + 1).padStart(2, '0')}${suffix}.png`;
+    return `carta_archivio_${String(i + 1).padStart(2, '0')}${suffix}.png`;
   };
 
-  const drawCardPlain = (c: CanvasRenderingContext2D, i: number) => {
+  const drawCardPlain = (c: CanvasRenderingContext2D, i: number, side: 'front' | 'back') => {
     if (!assets) return;
-    const plain = { editing: false, cutLine: false, guide: false, snapped: false };
+    const plain = { editing: false, cutLine: false, guide: false, snapped: false, side };
     const tpl = p[TPL_META[tab].field];
     const card: TemplateCard | undefined = tab === 'characters' ? p.characters[i]
       : tab === 'quiz' ? p.quiz[i]
@@ -224,13 +245,17 @@ export default function ProjectPage({ params }: { params: Promise<{ id: string }
     if (tpl) {
       renderTemplate(c, dims.w, dims.h, tpl, tplImages.current, card, plain);
     } else if (tab === 'characters') {
-      renderCharacter(c, dims.w, dims.h, assets, p.stitches, p.characters[i], plain);
+      if (side === 'front') renderCharacter(c, dims.w, dims.h, assets, p.stitches, p.characters[i], plain);
+      else { c.clearRect(0, 0, dims.w, dims.h); c.fillStyle = '#FFFFFF'; c.fillRect(0, 0, dims.w, dims.h); }
     } else if (tab === 'quiz') {
-      renderQuiz(c, dims.w, dims.h, assets, p.stitches, p.quizLayout, p.quiz[i], plain);
+      if (side === 'front') renderQuiz(c, dims.w, dims.h, assets, p.stitches, p.quizLayout, p.quiz[i], plain);
+      else { c.clearRect(0, 0, dims.w, dims.h); c.fillStyle = '#FFFFFF'; c.fillRect(0, 0, dims.w, dims.h); }
     } else if (tab === 'events') {
-      renderEvent(c, dims.w, dims.h, assets, p.stitches, p.eventLayout, p.events[i], plain);
+      if (side === 'front') renderEvent(c, dims.w, dims.h, assets, p.stitches, p.eventLayout, p.events[i], plain);
+      else { c.clearRect(0, 0, dims.w, dims.h); c.fillStyle = '#FFFFFF'; c.fillRect(0, 0, dims.w, dims.h); }
     } else {
-      renderArchive(c, dims.w, dims.h, assets, p.stitches, p.archiveLayout, p.archive[i], plain);
+      if (side === 'front') renderArchive(c, dims.w, dims.h, assets, p.stitches, p.archiveLayout, p.archive[i], plain);
+      else { c.clearRect(0, 0, dims.w, dims.h); c.fillStyle = '#FFFFFF'; c.fillRect(0, 0, dims.w, dims.h); }
     }
   };
 
@@ -257,7 +282,8 @@ export default function ProjectPage({ params }: { params: Promise<{ id: string }
     const i = tab === 'characters' ? charIdx : idxState[tab][0];
     if (!deckCards()[i]) return;
     await preloadTplImages();
-    await exportPng(exportName(i), dims.w, dims.h, (c) => drawCardPlain(c, i));
+    await exportPng(exportName(i, 'front'), dims.w, dims.h, (c) => drawCardPlain(c, i, 'front'));
+    await exportPng(exportName(i, 'back'), dims.w, dims.h, (c) => drawCardPlain(c, i, 'back'));
   };
 
   const exportAll = async () => {
@@ -266,7 +292,9 @@ export default function ProjectPage({ params }: { params: Promise<{ id: string }
     await preloadTplImages();
     const n = deckCards().length;
     for (let i = 0; i < n; i++) {
-      await exportPng(exportName(i), dims.w, dims.h, (c) => drawCardPlain(c, i));
+      await exportPng(exportName(i, 'front'), dims.w, dims.h, (c) => drawCardPlain(c, i, 'front'));
+      await pause();
+      await exportPng(exportName(i, 'back'), dims.w, dims.h, (c) => drawCardPlain(c, i, 'back'));
       await pause();
     }
   };
@@ -477,17 +505,37 @@ export default function ProjectPage({ params }: { params: Promise<{ id: string }
 
         <section className="stage">
           {curTpl ? (
-            <LayerCanvas
-              w={dims.w}
-              h={dims.h}
-              layers={sortedLayers(curTpl)}
-              selectedId={selLayer}
-              onSelect={setSelLayer}
-              paint={paint}
-              onChange={touch}
-            />
+            <div className={isLand ? 'canvases-vertical' : 'canvases-horizontal'}>
+              <div className="canvas-wrapper">
+                <h3>🌅 Fronte</h3>
+                <LayerCanvas
+                  w={dims.w}
+                  h={dims.h}
+                  layers={sortedLayers(curTpl).filter((l) => (l.side ?? 'front') === 'front')}
+                  selectedId={selLayer}
+                  onSelect={setSelLayer}
+                  paint={paintFront}
+                  onChange={touch}
+                />
+              </div>
+              <div className="canvas-wrapper">
+                <h3>🌌 Retro</h3>
+                <LayerCanvas
+                  w={dims.w}
+                  h={dims.h}
+                  layers={sortedLayers(curTpl).filter((l) => l.side === 'back')}
+                  selectedId={selLayer}
+                  onSelect={setSelLayer}
+                  paint={paintBack}
+                  onChange={touch}
+                />
+              </div>
+            </div>
           ) : (
-            <CardCanvas w={dims.w} h={dims.h} geom={geom} paint={paint} onGeomChange={touch} />
+            <div className="canvas-wrapper">
+              <h3>🌅 Fronte</h3>
+              <CardCanvas w={dims.w} h={dims.h} geom={geom} paint={paintFront} onGeomChange={touch} />
+            </div>
           )}
           {tab !== 'characters' && (
             <DeckNav

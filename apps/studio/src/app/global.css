@@ -422,6 +422,46 @@ html, body {
     margin-top: 10px;
   }
 
+  .canvases-horizontal {
+    display: flex;
+    gap: 24px;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    max-width: 100%;
+  }
+  .canvases-vertical {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    max-width: 100%;
+  }
+  .canvas-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+  }
+  .canvas-wrapper h3 {
+    font-size: 0.8rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--oro);
+    margin-bottom: 2px;
+  }
+  .canvases-horizontal canvas.portrait {
+    height: min(68vh, 520px) !important;
+    width: auto !important;
+  }
+  .canvases-vertical canvas.landscape {
+    width: min(90%, 680px) !important;
+    height: auto !important;
+    max-height: 34vh !important;
+  }
+
   @media (max-width: 900px) {
     .editor { flex-direction: column; }
     .editor .side { width: 100%; max-height: none; border-right: none; }
