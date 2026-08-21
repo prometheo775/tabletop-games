@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="360" height="360" viewBox="0 0 360 360">
+<circle cx="180" cy="180" r="145" fill="#F2E8D0" stroke="#181714" stroke-width="8"/>
+<circle cx="180" cy="180" r="130" fill="none" stroke="#181714" stroke-width="3"/>
+<path d="M163 82 Q163 68 177 68 H183 Q197 68 197 82 L190 215 Q189 229 180 229 Q171 229 170 215 Z" fill="#181714"/>
+<circle cx="180" cy="270" r="18" fill="#181714"/>
+</svg>
