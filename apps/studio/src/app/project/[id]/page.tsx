@@ -19,7 +19,7 @@ import { LayerPanel } from '../../../components/editor/LayerPanel';
 import { DeckNav } from '../../../components/editor/DeckNav';
 import { BlueprintPanel } from '../../../components/editor/BlueprintPanel';
 import { ImportModal, PromptBox, ViewJsonModal } from '../../../components/JsonModals';
-import { loadAssets, exportPng } from '../../../lib/canvas-io';
+import { loadAssets, exportImage, type ExportFormat } from '../../../lib/canvas-io';
 import { loadProject, saveProject } from '../../../lib/store';
 
 const DEFAULT_SLUG = 'caccia-alla-repubblica';
@@ -62,6 +62,7 @@ export default function ProjectPage({ params }: { params: Promise<{ id: string }
   const [assetFiles, setAssetFiles] = useState<string[]>([]);
   const tplImages = useRef<Record<string, HTMLImageElement>>({});
   const [imgVer, setImgVer] = useState(0);
+  const [exportFormat, setExportFormat] = useState<ExportFormat>('png');
 
   useEffect(() => {
     setProject(loadProject(id) ?? 'missing');
@@ -261,11 +262,12 @@ export default function ProjectPage({ params }: { params: Promise<{ id: string }
     archive: [arcIdx, setArcIdx] as const,
   };
 
-  const exportName = (i: number): string => {
-    if (tab === 'characters') return `carta_${p.characters[i].id}.png`;
-    if (tab === 'quiz') return `carta_sapere_era${p.quiz[i].era}_${String(i + 1).padStart(2, '0')}.png`;
-    if (tab === 'events') return `carta_imprevisto_${p.events[i].tipo}_${String(i + 1).padStart(2, '0')}.png`;
-    return `carta_archivio_${String(i + 1).padStart(2, '0')}.png`;
+  const exportName = (i: number, format: ExportFormat = exportFormat): string => {
+    const ext = format === 'svg' ? 'svg' : 'png';
+    if (tab === 'characters') return `carta_${p.characters[i].id}.${ext}`;
+    if (tab === 'quiz') return `carta_sapere_era${p.quiz[i].era}_${String(i + 1).padStart(2, '0')}.${ext}`;
+    if (tab === 'events') return `carta_imprevisto_${p.events[i].tipo}_${String(i + 1).padStart(2, '0')}.${ext}`;
+    return `carta_archivio_${String(i + 1).padStart(2, '0')}.${ext}`;
   };
 
   const drawCardPlain = (c: CanvasRenderingContext2D, i: number) => {
@@ -311,16 +313,17 @@ export default function ProjectPage({ params }: { params: Promise<{ id: string }
     const i = tab === 'characters' ? charIdx : idxState[tab][0];
     if (!deckCards()[i]) return;
     await preloadTplImages();
-    await exportPng(exportName(i), dims.w, dims.h, (c) => drawCardPlain(c, i));
+    await exportImage(exportFormat, exportName(i), dims.w, dims.h, (c) => drawCardPlain(c, i));
   };
 
-  /** Il retro è unico per tutto il mazzo: un solo PNG. */
+  /** Il retro è unico per tutto il mazzo: un solo file. */
   const exportBack = async () => {
     const tpl = p[TPL_META[tab].field];
     if (!tpl) return;
     await preloadTplImages();
     const plain = { editing: false, cutLine: false, guide: false, snapped: false };
-    await exportPng(`retro_${TPL_META[tab].file}.png`, dims.w, dims.h, (c) =>
+    const ext = exportFormat === 'svg' ? 'svg' : 'png';
+    await exportImage(exportFormat, `retro_${TPL_META[tab].file}.${ext}`, dims.w, dims.h, (c) =>
       renderTemplate(c, dims.w, dims.h, tpl, tplImages.current, curCard, { ...plain, side: 'back' }));
   };
 
@@ -330,7 +333,7 @@ export default function ProjectPage({ params }: { params: Promise<{ id: string }
     await preloadTplImages();
     const n = deckCards().length;
     for (let i = 0; i < n; i++) {
-      await exportPng(exportName(i), dims.w, dims.h, (c) => drawCardPlain(c, i));
+      await exportImage(exportFormat, exportName(i), dims.w, dims.h, (c) => drawCardPlain(c, i));
       await pause();
     }
   };
@@ -502,16 +505,41 @@ export default function ProjectPage({ params }: { params: Promise<{ id: string }
           <button className="btn btn-ghost btn-block" onClick={resetLayout}>
             ↺ Ripristina il layout di questa carta
           </button>
+          <div className="row" role="radiogroup" aria-label="Formato di esportazione">
+            <button
+              type="button"
+              className={`btn ${exportFormat === 'png' ? 'btn-primary' : 'btn-ghost'}`}
+              aria-pressed={exportFormat === 'png'}
+              onClick={() => setExportFormat('png')}
+            >
+              PNG
+            </button>
+            <button
+              type="button"
+              className={`btn ${exportFormat === 'svg' ? 'btn-primary' : 'btn-ghost'}`}
+              aria-pressed={exportFormat === 'svg'}
+              onClick={() => setExportFormat('svg')}
+            >
+              SVG
+            </button>
+          </div>
           <button className="btn btn-primary btn-block" onClick={exportCurrent}>
-            ⬇ Scarica questa carta (PNG 300 DPI)
+            ⬇ Scarica questa carta ({exportFormat === 'svg' ? 'SVG' : 'PNG 300 DPI'})
           </button>
           <button className="btn btn-secondary btn-block" onClick={exportAll}>
-            ⬇ Scarica tutto il mazzo
+            ⬇ Scarica tutto il mazzo ({exportFormat.toUpperCase()})
           </button>
           {curTpl && hasBackLayers(curTpl) && (
             <button className="btn btn-secondary btn-block" onClick={exportBack}>
-              ⬇ Scarica il retro del mazzo
+              ⬇ Scarica il retro del mazzo ({exportFormat.toUpperCase()})
             </button>
+          )}
+          {exportFormat === 'svg' && (
+            <p className="hint">
+              L&apos;SVG incapsula l&apos;immagine raster della carta (il motore disegna su
+              canvas): file valido e scalabile in Illustrator/Inkscape, ma testo e forme non
+              sono vettori editabili.
+            </p>
           )}
           <p className="hint">
             Trascina targhetta e box sul canvas; maniglia in basso a destra per
